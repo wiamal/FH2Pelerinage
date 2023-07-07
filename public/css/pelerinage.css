@@ -1,0 +1,53 @@
+.inscriptionlinks:link {
+  color: #025d38;
+}
+
+.inscriptionlinks:hover {
+  color: #d79a00;
+}
+
+.inscriptionlinks:visited {
+  color: #7d5b03;
+}
+
+.inscriptionbutton {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 20px;
+  background-color: #dfa921;
+  color: black;
+  text-decoration: none;
+  border-radius: 10px;
+  text-align: center;
+  width: 250px;
+  max-width: 100%;
+  transition: background-color 0.5s, color 0.5s;
+  ;
+}
+
+.inscriptionbutton:hover {
+
+  background-color: #025d38;
+  color: white;
+
+}
+
+.programmeAidePelerinage h2 {
+  color: #025d38;
+  position: relative;
+}
+
+.programmeAidePelerinage h2::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 7%;
+  height: 3px;
+  background-color: #dfa921;
+}
+
+.no-border {
+  border: 0;
+  box-shadow: none;
+}

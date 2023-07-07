@@ -1,0 +1,41 @@
+
+ /************************************* my style add ***********************/ 
+ 
+ .label-ar{
+  width: 100%;
+  text-align: right;
+}
+.sidebar-custom
+{
+  background-color: #e3e6ec !important; 
+/*
+  --gradient-start: #ABC7FF !important;
+  --gradient-start-text: '#ABC7FF' !important;
+  --gradient-end: #C1E3FF !important;
+  --gradient-end-text: '#C1E3FF'!important;
+*/
+  position: relative;
+  /*background-image: url(../images/bg-side.png);*/
+  background-image: url(../images/overlay.svg),linear-gradient(45deg,#eff3f9 0%,#eff3f9 100%);;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sidebar-custom svg.wave
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.brand-text{
+          background: -webkit-linear-gradient(#2db6c4, #3188c9);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+}
+/*********************** my style add *************************************************
+
+
+
+  

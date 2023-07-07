@@ -1,0 +1,74 @@
+/* alert('data');
+                var data = [];
+                $.each($("input[class='select-checkbox']:checked"), function(){
+                    data.push($(this).val());
+                }); */
+                /* table.rows().eq(0).each( function ( index ) {
+                   
+                    var row = table.row( index );
+                
+                    
+                    data.push(row.data());
+                    // ... do something with data(), or row.node(), etc
+                } ); */
+
+                /* table.rows( { selected: true } ).eq(0).each( function ( index ) {
+                    var row = table.row( index );
+                    dataAffiliation.push(row.data());
+                }); */
+
+                /* alert( 'The table has '+data.length+' records' ); */
+                /* $.each( data, function( key, value ) {
+                    $( ".showData" ).append( "<p>"+key + ": " + value+"</p>" );
+                }); */
+
+                /* for (let i = 0; i < dataAffiliation.length; i++) {
+                    
+                    $( ".showData" ).append( "<li>"+ dataAffiliation[i][1] +"</li>" );
+
+                    }
+                });*/
+
+______________________________________________________
+
+<div id="cardsModal" class="modal" id="myModal" >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form method="post" id="cards_form" action="{{ route('saveCard') }}">
+        <!-- Modal Header -->
+        <div class="modal-header bg-teal">
+          <h4 class="modal-title">Adhérent(s) selectionné(s)</h4>
+          <button id="closebtn" type="button" class="btn btn-teal" data-bs-dismiss="modal">
+            <i class="far fa-window-close fa-1x text-white" ></i>
+          </button>
+          {{-- <button type="button" class="btn" data-bs-dismiss="modal">
+            <i class="far fa-times-circle"></i>
+          </button> --}}
+        </div>
+        @csrf
+        @method('POST')
+        <!-- Modal body -->
+        <div class="modal-body">
+            
+            <div class="col-md-12">
+                <div class="form-group" id="selectAffiliations" >
+                    {{-- <label>Affiliations</label> --}}
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button id="send" type="submit" class="btn btn-success" >
+                Accepter
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+$filtredArray = array('Adherents' => $adherents , 
+                      'Conjoints' => $conjoints , 
+                      'Enfants'=>$enfants    
+                      ); 
