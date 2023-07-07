@@ -22,6 +22,9 @@ class Inscription extends Component
     public $errorMessage;
     public $estRetraite = false;
     public $statut;
+    public $nom, $prenom, $nomAr, $prenomAr, $ppr, $pension;
+    public $dateNaissance, $dateRecrutement;
+    public $shouldRetire = false;
 
     public function render()
     {
@@ -36,8 +39,13 @@ class Inscription extends Component
 
         if ($idAdherent) {
             $this->adherent = Adherent::where('id_adh', $idAdherent)->first();
+
+            $this->nom = $this->adherent->Nom . ' ' . $this->adherent->Prenom;
+            $this->nomAr = $this->adherent->NomAr . ' ' . $this->adherent->PrenomAr;
             $this->estRetraite = $this->isRetraite($this->adherent);
             $this->estFonctionnaire = $this->isFonctionnaire($this->adherent);
+
+
 
             // if ($this->estRetraite) $this->statut = 'R';
             // else {
@@ -51,9 +59,21 @@ class Inscription extends Component
         }
     }
 
+    public function updatedDateNaissance($value)
+    {
+
+        if ($value) {
+            $age = \Carbon\Carbon::parse($this->dateNaissance)->age;
+
+            if ($age >= 63 && $age <= 100) {
+                $this->shouldRetire = true;
+            }
+        }
+    }
     public function isFonctionnaire($adherent)
     {
         if ($adherent->PPR) {
+            $this->ppr = $adherent->PPR;
             return true;
         } else {
             $this->errorMessage = 'Veuillez regler votre situation administratif';
@@ -65,6 +85,7 @@ class Inscription extends Component
     {
         // dd($adherent);
         if ($adherent->Pension_Retraite != null) {
+            $this->pension = $adherent->Pension_Retraite;
             return true;
         } else {
 
@@ -88,7 +109,7 @@ class Inscription extends Component
         $validator = Validator::make(
             $r->all(),
             [
-                'DateNaissance' => [
+                'dateNaissance' => [
                     'required',
                     function ($attribute, $value, $fail) use ($dateFinDolhijja) {
                         // Convert $dateFinDolhijja to a Carbon instance for comparison
@@ -110,7 +131,7 @@ class Inscription extends Component
                     'required',
                     function ($attribute, $value, $fail) use ($r, $idAdherent) {
                         $etatFonction = $r->input('EtatFonction');
-                        $dateNaissance = $r->input('DateNaissance');
+                        $dateNaissance = $r->input('dateNaissance');
                         if (strtotime($value) <= strtotime($dateNaissance)) {
                             $fail('La date de recrutement doit être postérieure à la date de naissance.');
                         }
@@ -154,7 +175,7 @@ class Inscription extends Component
                 'AttestationDuPremiereParticipation' => 'required|mimes:pdf|max:2048'
             ],
             [
-                'DateNaissance.required' => 'La date de naissance est obligatoire.',
+                'dateNaissance.required' => 'La date de naissance est obligatoire.',
                 'DateRecrutement.required' => 'La date de recrutement est obligatoire.',
                 'DateRecrutement.after' => 'La date de recrutement doit être postérieure à la date de naissance.',
                 'DejaBeneficierDuPelerinage.required' => 'Vous devriez être bénéficiaire du pèlerinage pour la première fois.',
@@ -206,7 +227,7 @@ class Inscription extends Component
         $inscription = new inscriptionpelerinage();
         $inscription->IdAdherent = $idAdherent;
         $inscription->IdPelerinage = $pelerinage->IdPelerinage;
-        $inscription->DateNaissance = $r->input('DateNaissance');
+        $inscription->dateNaissance = $r->input('dateNaissance');
         $inscription->DateRecrutement = $r->input('DateRecrutement');
         $inscription->EtatFonction = $r->input('EtatFonction');
         $inscription->DejaBeneficier = $r->input('DejaBeneficierDuPelerinage') ? 0 : 1;

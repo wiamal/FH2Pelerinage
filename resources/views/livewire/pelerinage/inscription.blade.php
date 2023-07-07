@@ -1,54 +1,56 @@
-@extends('dashboard.dashboard')
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}">
-@endsection
-
-@section('content')
-    <div class="card my-4">
-        <div class="card-header">
-            <h2 class="programmeAidePelerinage">
-                Programme d'Aide au Pèlerinage pour L'Annee {{ $pelerinage->Annee }}
-            </H2>
-        </div>
-        <div class="card-body">
-            <h5>Bienvenue cher(chere) pelerin(e)</h5>
+<div class="card my-4">
+    <div class="card-header">
+        <h2 class="programmeAidePelerinage">
+            Programme d'aide au pèlerinage de l'annee {{ $pelerinage->Annee }}
+        </H2>
+    </div>
+    <div class="card-body">
+        <h5 class="mx-2 p-3">Bienvenue cher(e) pèlerin(e)</h5>
+        <div class="panel bg-light mx-4 pt-3 px-5 pb-0 rounded-3">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" class="form-control bg-white no-border" wire:model.lazy="Nom"
-                        value="Nom du pèlerin : {{ $adherent->Nom . ' ' . $adherent->Prenom }}"
-                        style=" border: 0; box-shadow: none;">
-                    @error('Nom')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{-- <label for="NomAr" class="d-flex justify-content-end">
-                            الإسم العائلي
-                        </label> --}}
-                        <input type="text" class="form-control bg-white no-border" wire:model.lazy="NomAr"
-                            value="الاسم و النسب : {{ $adherent->NomAr . ' ' . $adherent->PrenomAr }}"
-                            style=" border: 0; box-shadow: none;">
-                        @error('NomAr')
+                    <div class="form-group row">
+                        <label for="Nom" class="col-sm-6 col-form-label">Nom & prenom du pèlerin : </label>
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="Nom"
+                                wire:model.lazy="nom">
+                        </div>
+                        @error('Nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="text" readonly class="form-control-plaintext" id="NomAr"
+                                style="text-align: right" wire:model="nomAr">
+                        </div>
+                        <label for="NomAr" class="col-sm-6 col-form-label" style="text-align: right">: الاسم و النسب
+                        </label>
+
+                        @error('NomAr')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                </div>
             </div>
-            @if ($statut = 'F')
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="PPR">PPR</label>
-                            <input type="text" class="form-control" wire:model.lazy="PPR"
-                                value="{{ $adherent->PPR }}">
+
+            <div class="row">
+                <div class="col-md-6">
+                    @if ($statut = 'F')
+                        <div class="form-group row">
+                            <label for="PPR" class="col-sm-6 col-form-label">PPR : </label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" wire:model="ppr">
+                            </div>
                             @error('PPR')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
-                </div>
-                {{-- <div class="row">
+
+                        {{-- <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="row">
                                     <div class="col-12">
@@ -67,20 +69,20 @@
                                 </div>
                             </div>
                         </div> --}}
-            @elseif ($statut = 'R')
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="PPR">Pension</label>
-                            <input type="text" class="form-control" wire:model.lazy="PPR"
-                                value="{{ $adherent->Pension_Retraite }}">
-                            @error('PPR')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                    @elseif ($statut = 'R')
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="PPR">Pension</label>
+                                    <input type="text" class="form-control" wire:model.lazy="PPR"
+                                        value="{{ $adherent->Pension_Retraite }}">
+                                    @error('PPR')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                {{-- <div class="row">
+                        {{-- <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="row">
                                         <div class="col-12">
@@ -111,7 +113,7 @@
                                     </div>
                                 </div>
                             </div> --}}
-            @elseif($statut = 'UR')
+                        {{-- @elseif($statut = 'UR')
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-danger text-center mx-5" role="alert">Vous n'avez pas informer
@@ -157,70 +159,77 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                    @endif
                 </div>
-            @endif
-            <div class="row mx-5">
-                <div class="col">
-                    <form action="/demandePelerinage" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="">
-                            @if (isset($errorMessage))
-                                <div class="alert alert-danger text-center mx-5">{{ $errorMessage }}</div>
-                            @endif
+            </div>
+
+        </div>
+
+        <div class="row mx-4 my-4">
+            <div class="col">
+
+                <div class="">
+                    @if (isset($errorMessage))
+                        <div class="alert alert-danger text-center mx-5">{{ $errorMessage }}</div>
+                    @endif
+                </div>
+                @error('dateNaissance')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+                <div class="form-group">
+                    <label for="dateNaissance">Date Naissance :</label>
+                    <input type="date" class="form-control" id="dateNaissance" name="dateNaissance"
+                        wire:model.lazy="dateNaissance" max="9999-12-31">
+                </div>
+                @if ($shouldRetire)
+                    <div class="row pt-3">
+                        <div class="col-md-6">
+                            <div class="form-group d-flex justify-content-start align-items-center  p-2">
+                                <label for="statut">Êtes-vous déjà à la retraite ?</label>
+                                <span class="icheck-danger d-inline px-3">
+                                    <input type="radio" name="statut" id="statutRetraite" value="R" checked
+                                        wire:model.lazy="statut" />
+                                    <label for="statutRetraite">
+                                        Oui
+                                    </label>
+                                </span>
+                                <span class="icheck-green d-inline px-3">
+                                    <input type="radio" name="statut" id="statutFonctionnaire" value="F"
+                                        wire:model.lazy="statut" />
+                                    <label for="statutFonctionnaire">
+                                        Non
+                                    </label>
+                                </span>
+
+                            </div>
                         </div>
+                    </div>
+                @endif
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @error('dateRecrutement')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="form-group">
+                        <label for="dateRecrutement">Date Recrutement :</label>
+                        <input type="date" class="form-control" max="9999-12-31" wire:model="dateRecrutement">
+                    </div>
 
+                    @error('DejaBeneficierDuPelerinage')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="checkbox row pt-3 mx-1">
+                        <label>
+                            <input type="checkbox" name="DejaBeneficierDuPelerinage" class="mx-2" checked='false'>
+                            Avez-vous déjà reçu une aide financière pour votre pèlerinage précédent ?
+                        </label>
+                    </div>
 
-
-
-
-                        @error('DateNaissance')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="form-group">
-                            <label for="DateNaissance">Date Naissance :</label>
-                            <input type="date" class="form-control" name="DateNaissance" id="DateNaissance">
-                        </div>
-
-                        @error('DateRecrutement')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="form-group">
-                            <label for="DateRecrutement">Date Recrutement :</label>
-                            <input type="date" class="form-control" name="DateRecrutement" id="DateRecrutement">
-                        </div>
-
-                        @error('DejaBeneficierDuPelerinage')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="checkbox row">
-                            <label>
-                                <input type="checkbox" name="DejaBeneficierDuPelerinage" checked='false'> Avez-vous
-                                bénéficié
-                                auparavant
-                                du pèlerinage (Hajj)
-                            </label>
-                        </div>
-                        <div class="form-group d-flex justify-content-start align-items-center bg-light  p-2">
-                            <label for="statut">Etes-vous :</label>
-                            <span class="icheck-green d-inline px-3">
-                                <input type="radio" name="statut" id="statutFonctionnaire" value="oui"
-                                    @php if ($statut == 'F') echo "checked" @endphp wire:model.lazy="statut" />
-                                <label for="statutFonctionnaire">
-                                    Fonctionnaire
-                                </label>
-                            </span>
-                            <span class="icheck-danger d-inline px-3">
-                                <input type="radio" name="statut" id="statutRetraite" value="non"
-                                    @php if ($statut == 'R') echo "checked" @endphp wire:model.lazy="statut" />
-                                <label for="statutRetraite">
-                                    Retraite
-                                </label>
-                            </span>
-                        </div>
-                        {{-- @error('AttestationDuPremiereParticipation')
+                    {{-- @error('AttestationDuPremiereParticipation')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror --}}
-                        {{-- <div x-data="{ open: false }">
+                    {{-- <div x-data="{ open: false }">
                         <div class="panel" id="piece-jointes" x-show="open">
                             <div class="row">
                                 <div class="col">
@@ -306,11 +315,8 @@
                             </div>
                         </div>
                     </div> --}}
-                    </form>
-                </div>
+                </form>
             </div>
-
-
         </div>
     </div>
-@endsection
+</div>
