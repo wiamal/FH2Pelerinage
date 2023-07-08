@@ -6,6 +6,8 @@ use App\Models\Pelerinage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\PdfController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,3 +70,5 @@ Route::get('/pelerinage',  function () {
 Route::view('pelerinage/inscription', 'inscriptionPelerinage')->name('inscriptionPelerinage');
 
 Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
+//for displaying PDF
+Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');

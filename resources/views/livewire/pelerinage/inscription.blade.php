@@ -275,89 +275,160 @@
                         </div>
                     @elseif ($currentStep == 2 && $statut != 'Unknown')
                         <div class="panel" id="piece-jointes">
-                            <div class="card elevation-0">
+                            <div class="card elevation-0" style="border: 1px solid rgba(128, 128, 128, 0.452)">
                                 <div class="card-header" style="background-color: #025d38; color: white">
                                     <h5>Documents requis </h5>
                                 </div>
                                 <div class="card-body">
+                                    {{-- {{ var_export(count($tmplisteDocuments)) }} --}}
                                     <table class=" table table-stripped">
                                         <thead class="table table-secondary">
                                             <th>Type document</th>
                                             <th colspan="2"></th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($listeDocuments as $doc)
-                                                <tr>
+                                            {{-- @foreach ($listeDocuments as $doc)
+                                                <tr wire:click="clickMe({{ $doc->IdTypeDocument }})">
                                                     <td>{{ $doc->Titre }} :</td>
                                                     <td><a class="btn btn-primary" href="#"
                                                             role="button">voir</a>
                                                     </td>
-                                                    <td><a class="btn btn-primary" href="#"
-                                                            role="button">Téléverser</a>
+                                                    <td>
+                                                        <label for="file-upload" class="custom-file-upload">
+                                                            Téléverser
+                                                        </label>
+                                                        <input id="file-upload" type="file"
+                                                            wire:model="document" />
                                                     </td>
                                                 </tr>
-                                            @endforeach
-                                            {{-- <tr>
-                                                <td>Demande adressée au président de la Fondation dument rempli :</td>
+                                            @endforeach --}}
+                                            <tr>
+                                                <td>
+                                                    <p>Demande adressée au président de la Fondation dument rempli :</p>
+                                                    @if ($demande)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['filename' => $demande->getClientOriginalName(), 'path' => $demande->getRealPath()]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ $demande->getClientOriginalName() }}
+                                                            </a>
+                                                        </p>
+                                                    @endif
+                                                </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-demande" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-demande" type="file" wire:model="demande" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Copie de la facture ou de la quittance de paiement des dépenses :
+                                                <td>
+                                                    <p>Copie de la facture ou de la quittance de paiement des dépenses :
+                                                    </p>
+                                                    @if ($facture)
+                                                        <a href="{{ route('pdf.show', ['filename' => $facture->getClientOriginalName(), 'path' => $facture->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            {{ $facture->getClientOriginalName() }}
+                                                        </a>
+                                                    @endif
                                                 </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-facture" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-facture" type="file" wire:model="facture" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Certificat des services du ministère de la Santé et de la Protection
-                                                    Sociale ou des institutions publiques relevant de sa compétence,
-                                                    attestant que le demandeur, en tant qu'exerçant ou retraité, n'a pas
-                                                    bénéficié précédemment du pèlerinage :</td>
+                                                <td>
+                                                    <p>Certificat des services du ministère de la Santé et de la
+                                                        Protection
+                                                        Sociale ou des institutions publiques relevant de sa compétence,
+                                                        attestant que le demandeur, en tant qu'exerçant ou retraité, n'a
+                                                        pas
+                                                        bénéficié précédemment du pèlerinage :</p>
+                                                    @if ($certificat)
+                                                        <a href="{{ route('pdf.show', ['filename' => $certificat->getClientOriginalName(), 'path' => $certificat->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            {{ $certificat->getClientOriginalName() }}
+                                                        </a>
+                                                    @endif
+                                                </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-certificat" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-certificat" type="file"
+                                                        wire:model="certificat" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Déclaration sur l'honneur dans laquelle le demandeur atteste de
-                                                    l'authenticité de tous les documents fournis conformément aux
-                                                    conditions requises dans cette annonce :</td>
+                                                <td>
+                                                    <p>Déclaration sur l'honneur dans laquelle le demandeur atteste de
+                                                        l'authenticité de tous les documents fournis conformément aux
+                                                        conditions requises dans cette annonce :</p>
+                                                    @if ($declaration)
+                                                        <a href="{{ route('pdf.show', ['filename' => $declaration->getClientOriginalName(), 'path' => $declaration->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            {{ $declaration->getClientOriginalName() }}
+                                                        </a>
+                                                    @endif
+                                                </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-declaration" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-declaration" type="file"
+                                                        wire:model="declaration" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Copie du visa pour effectuer les rites du Hajj, ainsi que de la
-                                                    première page du passeport et du cachet d'entrée et de sortie du
-                                                    Royaume d'Arabie saoudite. :</td>
+                                                <td>
+                                                    <p>Copie du visa pour effectuer les rites du Hajj, ainsi que de la
+                                                        première page du passeport et du cachet d'entrée et de sortie du
+                                                        Royaume d'Arabie saoudite. :</p>
+                                                    @if ($visa)
+                                                        <a href="{{ route('pdf.show', ['filename' => $visa->getClientOriginalName(), 'path' => $visa->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            {{ $visa->getClientOriginalName() }}
+                                                        </a>
+                                                    @endif
+                                                </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-visa" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-visa" type="file" wire:model="visa" />
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Attestation de Relevé d'Identité Bancaire (RIB) originale :</td>
+                                                <td>
+                                                    <p>Attestation de Relevé d'Identité Bancaire (RIB) originale :</p>
+                                                    @if ($rib)
+                                                        <a href="{{ route('pdf.show', ['filename' => $rib->getClientOriginalName(), 'path' => $rib->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer">
+                                                            {{ $rib->getClientOriginalName() }}
+                                                        </a>
+                                                    @endif
+                                                </td>
                                                 <td><a class="btn btn-primary" href="#" role="button">voir</a>
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#"
-                                                        role="button">Téléverser</a>
+                                                <td><label for="file-rib" class="custom-file-upload">
+                                                        Téléverser
+                                                    </label>
+                                                    <input id="file-rib" type="file" wire:model="rib" />
                                                 </td>
-                                            </tr> --}}
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col">
                                     @error('AttestationDuPremiereParticipation')
                                         <div class="alert alert-default-danger">{{ $message }}</div>
@@ -433,7 +504,7 @@
                                             name="ReleveDidentiteBanquer">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     @endif
                 </form>

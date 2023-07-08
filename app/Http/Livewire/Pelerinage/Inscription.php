@@ -8,17 +8,20 @@ use App\Models\Adherent;
 use App\Models\fonction;
 use App\Models\retraite;
 use App\Models\Pelerinage;
+use App\Models\Ty;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\inscriptionpelerinage;
 use App\Models\TypeDocumentPelerinage;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class Inscription extends Component
 {
     use WithFileUploads;
+
+    // protected $listeners = ['documentUpdated'];
 
     public $pelerinage;
     public $adherent;
@@ -34,9 +37,13 @@ class Inscription extends Component
     public $currentStep = 1;
     public $displayDateRetraite, $dateRetraite;
     public $anciennete;
+    public $selectedTypeDocument;
 
     // Liste documents
-    public $listeDocuments;
+    public $demande, $facture, $certificat, $declaration, $visa, $rib;
+    public $listeDocuments, $tmplisteDocuments = [];
+    public $filename;
+    public $path;
 
 
     public function render()
@@ -49,7 +56,7 @@ class Inscription extends Component
         $this->pelerinage = Pelerinage::latest()->first();
         $user = Auth::user();
         $idAdherent = $user->IdAdherent;
-        $this->listeDocuments = TypeDocumentPelerinage::all();
+        $this->listeDocuments = App\Http\Livewire\\TypeDocumentPelerinage::all();
 
         if ($idAdherent) {
             $this->adherent = Adherent::where('id_adh', $idAdherent)->first();
@@ -75,6 +82,10 @@ class Inscription extends Component
             // }
         }
     }
+
+    // public function documentUpdated($value, $id)
+    // {
+    // }
 
     public function updatedDateNaissance($value)
     {
@@ -124,6 +135,36 @@ class Inscription extends Component
             $this->displayDateRetraite = false;
     }
 
+    public function updatedDemande($value)
+    {
+        $this->addTmpDocument($value, 1);
+    }
+    public function updatedFacture($value)
+    {
+        $this->addTmpDocument($value, 2);
+    }
+    public function updatedCertificat($value)
+    {
+        $this->addTmpDocument($value, 3);
+    }
+    public function updatedDeclaration($value)
+    {
+        $this->addTmpDocument($value, 4);
+    }
+    public function updatedVisa($value)
+    {
+        $this->addTmpDocument($value, 5);
+    }
+    public function updatedDRib($value)
+    {
+        $this->addTmpDocument($value, 6);
+    }
+
+    // public function clickMe($value)
+    // {
+    //     $this->selectedTypeDocument = $value;
+    //     //dd($value);
+    // }
     public function isFonctionnaire($adherent)
     {
         if ($adherent->PPR) {
@@ -156,6 +197,37 @@ class Inscription extends Component
         if (--$this->currentStep < 1)
             $this->currentStep = 1;
     }
+
+    public function addTmpDocument($file, $idType)
+    {
+        // dd($this->tmplisteDocuments);
+
+        $replaced = false;
+        foreach ($this->tmplisteDocuments as $doc) {
+            if ($doc[1] == $idType) {
+                $doc[0] = $file;
+                $replaced = true;
+            }
+        }
+        if (!$replaced)
+            array_push($this->tmplisteDocuments, [$file, $idType]);
+        //dd($this->tmplisteDocuments);
+    }
+
+    public function inscrire()
+    {
+        InscriptionPelerinage::create([
+            'IdAdherent' => $this->adherent->id_adh,
+            'IdPelerinage' => $this->pelerinage->IdPelerinage,
+            'DateNaissance',
+            'DateRecrutement',
+            'DateRetraite',
+            'Retraite',
+            'IdStatutInscriptionPelerinage'
+        ]);
+    }
+
+
 
     public function demander(Request $r)
     {
