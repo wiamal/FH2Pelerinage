@@ -29,6 +29,7 @@ class Inscription extends Component
     public $shouldRetire = false;
     public $currentStep = 1;
     public $displayDateRetraite, $dateRetraite;
+    public $anciennete;
 
     public function render()
     {
@@ -88,12 +89,16 @@ class Inscription extends Component
 
     public function updatedDateRecrutement($value)
     {
-        $dateDepartRetraite = \Carbon\Carbon::parse($value)->age;
-        $anciennete = \Carbon\Carbon::parse($value)->age;
-        if ($anciennete >= 10 && $anciennete < 50) {
+        if ($this->statut == 'R')
+            $this->anciennete = \Carbon\Carbon::parse($this->dateRetraite)->diffInYears(\Carbon\Carbon::parse($value));
+        else {
+            $dhuAlHijjah9 = \Carbon\Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah9);
+            $this->anciennete = $dhuAlHijjah9->diffInYears(\Carbon\Carbon::parse($value));
+        }
+        if ($this->anciennete >= 10 && $this->anciennete < 50) {
             $this->correctAnciennete = true;
             $this->wrongAnciennete = false;
-        } elseif ($anciennete <= 1 && $anciennete > 10) {
+        } elseif ($this->anciennete < 10 || $this->anciennete >= 50) {
             $this->correctAnciennete = false;
             $this->wrongAnciennete = true;
         }
@@ -101,10 +106,10 @@ class Inscription extends Component
 
     public function updatedStatut($value)
     {
-        dd($value);
-        if ($value == 1)
+        // dd($value);
+        if ($value == 'R')
             $this->displayDateRetraite = true;
-        else
+        else if ($value == 'F')
             $this->displayDateRetraite = false;
     }
 
@@ -112,6 +117,7 @@ class Inscription extends Component
     {
         if ($adherent->PPR) {
             $this->ppr = $adherent->PPR;
+            $this->statut = 'F';
             return true;
         } else {
             $this->errorMessage = 'Veuillez regler votre situation administratif';
@@ -124,9 +130,9 @@ class Inscription extends Component
         // dd($adherent);
         if ($adherent->Pension_Retraite != null) {
             $this->pension = $adherent->Pension_Retraite;
+            $this->statut = 'R';
             return true;
         } else {
-
             return false;
         }
     }

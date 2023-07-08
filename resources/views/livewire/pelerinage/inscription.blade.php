@@ -180,14 +180,19 @@
                                     <div class="alert alert-default-danger text-center mx-5">{{ $errorMessage }}</div>
                                 @endif
                             </div>
-                            @error('dateNaissance')
-                                <div class="alert alert-default-danger">{{ $message }}</div>
-                            @enderror
-                            <div class="form-group">
-                                <label for="dateNaissance">Date Naissance :</label>
-                                <input type="date" class="form-control" id="dateNaissance" name="dateNaissance"
-                                    wire:model.lazy="dateNaissance" max="9999-12-31">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @error('dateNaissance')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-group">
+                                        <label for="dateNaissance">Date de naissance :</label>
+                                        <input type="date" class="form-control" id="dateNaissance"
+                                            name="dateNaissance" wire:model.lazy="dateNaissance" max="9999-12-31">
+                                    </div>
+                                </div>
                             </div>
+
                             @if ($wrongAge)
                                 <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
                                     atteint
@@ -239,13 +244,17 @@
                                     </div>
                                 @endif
                             @endif
-                            @error('dateRecrutement')
-                                <div class="alert alert-default-danger">{{ $message }}</div>
-                            @enderror
-                            <div class="form-group">
-                                <label for="dateRecrutement">Date Recrutement :</label>
-                                <input type="date" class="form-control" max="9999-12-31"
-                                    wire:model="dateRecrutement">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @error('dateRecrutement')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-group">
+                                        <label for="dateRecrutement">Date de recrutement :</label>
+                                        <input type="date" class="form-control" max="9999-12-31"
+                                            wire:model="dateRecrutement">
+                                    </div>
+                                </div>
                             </div>
                             @if ($correctAnciennete)
                                 <div class="alert alert-default-success">Vous êtes admissible, ayant acquis une
@@ -254,7 +263,8 @@
                                     ans
                                     conformément aux critères requis.
                                 </div>
-                            @elseif($wrongAnciennete)
+                            @endif
+                            @if ($wrongAnciennete)
                                 <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
                                     une
                                     ancienneté
