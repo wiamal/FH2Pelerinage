@@ -346,7 +346,7 @@
                                     <button type="button" class="btn btn-outline-secondary mx-3"
                                         wire:click.prevent="previousStep()">Étape precedente</button>
                                     <button type="button" class="btn btn-success"
-                                        wire:click.prevent="previousStep()">Enregistrer</button>
+                                        wire:click.prevent="demander()">Enregistrer</button>
                                 @endif
                             </div>
                         </div>
