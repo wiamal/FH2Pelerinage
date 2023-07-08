@@ -49,8 +49,11 @@ class Inscription extends Component
             $this->nom = $this->adherent->Nom . ' ' . $this->adherent->Prenom;
             $this->nomAr = $this->adherent->NomAr . ' ' . $this->adherent->PrenomAr;
             $this->estRetraite = $this->isRetraite($this->adherent);
-            $this->estFonctionnaire = $this->isFonctionnaire($this->adherent);
-
+            if (!$this->estRetraite)
+                $this->estFonctionnaire = $this->isFonctionnaire($this->adherent);
+            if (!$this->estFonctionnaire) {
+                $this->statut = 'Unknown';
+            }
 
 
             // if ($this->estRetraite) $this->statut = 'R';
@@ -120,14 +123,12 @@ class Inscription extends Component
             $this->statut = 'F';
             return true;
         } else {
-            $this->errorMessage = 'Veuillez regler votre situation administratif';
             return false;
         }
     }
 
     public function isRetraite($adherent)
     {
-        // dd($adherent);
         if ($adherent->Pension_Retraite != null) {
             $this->pension = $adherent->Pension_Retraite;
             $this->statut = 'R';

@@ -40,9 +40,10 @@
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        @if ($statut = 'F')
+
+                @if ($statut == 'F')
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label for="PPR" class="col-sm-6 col-form-label" style="color: #025d38">PPR :
                                 </label>
@@ -53,8 +54,10 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
 
-                            {{-- <div class="row">
+                    {{-- <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="row">
                                     <div class="col-12">
@@ -73,20 +76,24 @@
                                 </div>
                             </div>
                         </div> --}}
-                        @elseif ($statut = 'R')
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="PPR">Pension</label>
-                                        <input type="text" class="form-control" wire:model.lazy="PPR"
-                                            value="{{ $adherent->Pension_Retraite }}">
-                                        @error('PPR')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                @elseif ($statut == 'R')
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="Pension" class="col-sm-6 col-form-label" style="color: #025d38">Nnumero de
+                                    pension :
+                                </label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly class="form-control-plaintext" wire:model="pension">
                                 </div>
+                                @error('Pension')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
-                            {{-- <div class="row">
+                        </div>
+                    </div>
+
+                    {{-- <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="row">
                                         <div class="col-12">
@@ -117,7 +124,7 @@
                                     </div>
                                 </div>
                             </div> --}}
-                            {{-- @elseif($statut = 'UR')
+                    {{-- @elseif($statut = 'UR')
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-default-danger text-center mx-5" role="alert">Vous n'avez pas informer
@@ -128,34 +135,7 @@
                             administrative,
                             pour que votre inscription sera prise en compte</div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="">Nom :</label> {{ $adherent->Nom }}
-                            </div>
-                            <div class="col-12">
-                                <label for=""> Prenom : </label> {{ $adherent->Prenom }}
-                            </div>
-                            <div class="col-12">
-                                <label for=""> Etat de fonction : </label> Retraite
-                            </div>
-                            <input type="hidden" name="EtatFonction" id="EtatFonction" value="FonctionaireRetraite">
-                            @error('DateRetraite')
-                                <div class="col-12 alert alert-default-danger">{{ $message }}</div>
-                            @enderror
-                            <div class="col-12 form-group">
-                                <label for="DateRetraite">Date Retraite:</label>
-                                <input type="date" class="form-control" name="DateRetraite" id="DateRetraite">
-                            </div>
-                            @error('Pension')
-                                <div class="col-12 alert alert-default-danger">{{ $message }}</div>
-                            @enderror
-                            <div class="col-12 form-group">
-                                <label for="Pension">Attestation de pension:</label>
-                                <input type="file" class="form-control-file " id="Pension" name="Pension">
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="col-md-6 col-sm-12">
                         <div class="row ">
                             <div class="col-12 p-5 text-center">
@@ -164,16 +144,25 @@
                         </div>
                     </div>
                 </div> --}}
-                        @endif
+                @elseif ($statut == 'Unknown')
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-default-danger text-center mx-5" role="alert">Votre
+                                adhésion à la Fondation Hassan II n'est pas complète. Veuillez vous rendre à la
+                                fondation ou contacter votre coordonnateur régional pour régulariser votre
+                                situation administrative afin que votre demande d'aide financière pour le
+                                pèlerinage soit prise en compte.
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         @endif
         <div class="row mx-4 my-4">
             <div class="col">
                 <form action="" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @if ($currentStep == 1)
+                    @if ($currentStep == 1 && $statut != 'Unknown')
                         <div class="panel">
                             <div class="">
                                 @if (isset($errorMessage))
@@ -283,7 +272,7 @@
                                 </label>
                             </div>
                         </div>
-                    @elseif ($currentStep == 2)
+                    @elseif ($currentStep == 2 && $statut != 'Unknown')
                         <div class="panel" id="piece-jointes" x-show="open">
                             <div class="row">
                                 <div class="col">
@@ -368,10 +357,11 @@
                     <div class="card-footer bg-white">
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                @if ($currentStep == 1)
+                                @if ($currentStep == 1 && $statut != 'Unknown')
                                     <button type="button" class="btn btn-primary"
-                                        wire:click.prevent="nextStep()">Étape suivante</button>
-                                @else
+                                        wire:click.prevent="nextStep()">Étape
+                                        suivante</button>
+                                @elseif ($currentStep == 2 && $statut != 'Unknown')
                                     <button type="button" class="btn btn-outline-secondary mx-3"
                                         wire:click.prevent="previousStep()">Étape precedente</button>
                                     <button type="button" class="btn btn-success"

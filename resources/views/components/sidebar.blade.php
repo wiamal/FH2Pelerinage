@@ -3,8 +3,9 @@
         <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link {{ setMenuClass('home', 'active') }} ">
-                <i class="nav-icon fas fa-home"></i>
+            <a href="{{ route('accueilPelerinage') }}" class="nav-link {{ setMenuClass('home', 'active') }} ">
+                <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
+                    alt="">
                 <p>
                     Accueil
                 </p>
@@ -88,12 +89,11 @@
 </li> --}}
 
         <li class="nav-item">
-          <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
-            <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
-                alt="">
-            <p>Pèlerinage</p>
-          </a>
-           {{-- <ul class="nav nav-treeview">
+            <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
+                <i class="nav-icon fa-solid fa-kaaba"></i>
+                <p>Pèlerinage</p>
+            </a>
+            {{-- <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="" class="nav-link ">
                         
