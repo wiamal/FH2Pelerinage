@@ -211,7 +211,7 @@
             </div>
             <!-- /.sidebar -->
             <!-- /wave -->
-            <svg style="pointer-events: none" class="wave" width="100%" height="70px" preserveAspectRatio="none"
+           {{--  <svg style="pointer-events: none" class="wave" width="100%" height="70px" preserveAspectRatio="none"
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 75">
                 <defs>
                     <style>
@@ -257,7 +257,7 @@
                         d="M1998,484H-243V100c445.8,26.8,794.2-4.1,1035-39,141-20.4,231.1-40.1,378-45,349.6-11.6,636.7,73.8,828,150">
                     </path>
                 </g>
-            </svg>
+            </svg> --}}
         </aside>
 
         <!-- Content Wrapper. Contains page content -->

@@ -20,12 +20,6 @@
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- jQuery -->
-    <script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
-
-    <!-- Bootstrap 4 -->
-    <script src="{{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}">
 
     {{-- <script type="text/javascript">
@@ -305,7 +299,7 @@
         }
 
         .btn-action {
-            background-color: #4fc3f7;
+            background-color: #00a884;
             color: #fff;
             transition: 0.35s ease-in-out;
             transition: all 0.35s ease-in-out;
@@ -318,7 +312,7 @@
         }
 
         .btn-action:hover {
-            background-color: #1d9bf0;
+            background-color: #36bea6;
             color: #fff;
         }
 
@@ -342,8 +336,8 @@
         }
 
         .navbar-expand {
-            background: rgb(29, 161, 243);
-            background: linear-gradient(90deg, rgba(29, 161, 243, 1) 0%, rgba(79, 195, 247, 1) 100%);
+            background: rgb(0,168,132);
+            background: linear-gradient(90deg, rgb(0,168,132) 0%, rgb(23,162,184) 100%);
 
         }
 
@@ -375,22 +369,24 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand  shadow-sm">
-            <div class="container">
-
-                <a class="navbar-brand" href="{{ url('/') }}">
+        <nav class="navbar navbar-expand  shadow-sm px-2">
+            
+                <a class="navbar-brand bg-light rounded border border-secondary" href="{{ url('/') }}">
+                    <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}"  alt="">
+                </a>
+                {{-- <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Fondation Hassan II') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> --}}
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -430,7 +426,7 @@
                         @endguest
                     </ul>
                 </div>
-            </div>
+            
         </nav>
 
         <main class="">
@@ -476,6 +472,7 @@
         </script>
     @endif
 
+    <script src="{{ asset('js/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
