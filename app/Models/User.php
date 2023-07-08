@@ -27,7 +27,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        // 'confirmation_token',
+        'confirmation_token',
         'idAdherent'
     ];
 

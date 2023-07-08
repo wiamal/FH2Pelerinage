@@ -61,8 +61,9 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
         // create notification 
-        // $user->notify(new RegisteredUser());
-        return redirect(route('login'))->with('success', 'Votre compte a bien été créé');
+        $user->notify(new RegisteredUser());
+        return redirect(route('login'))->with('success', 'Votre compte a bien été crée, 
+        vous devez le confirmer avec l\'email que vous allez recevoir');
     }
 
     public function confirm($id, $token)
@@ -116,7 +117,7 @@ class RegisterController extends Controller
             'username' => $data['Affiliation'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            // 'confirmation_token' => str_replace('/', '', bcrypt((Str::random((16))))),
+            'confirmation_token' => str_replace('/', '', bcrypt((Str::random((16))))),
             'idAdherent' => getAdherentId($data['CIN'], $data['Affiliation']),
         ]);
     }

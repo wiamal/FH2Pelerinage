@@ -19,9 +19,7 @@ use App\Http\Controllers\PdfController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 
 Auth::routes();
 
@@ -29,46 +27,33 @@ Route::get('/confirm/{id}/{token}', '\App\Http\Controllers\Auth\RegisterControll
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/* Route::get('/dashboard/profil', [App\Http\Controllers\AdherentController::class, 'index'])->name('profil')->middleware(Authenticate ::class);
- 
-Route::get('/dashboard/profil/edit', [App\Http\Controllers\AdherentController::class, 'edit'])->name('edit')->middleware(Authenticate::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('auth.login');
+    });
 
-Route::PUT('/dashboard/profil/{Adherent}', [App\Http\Controllers\AdherentController::class, 'update'])->name('updateAdherent')->middleware(Authenticate::class);
- */
+    Route::group([
+        "prefix" => "dashboard",
+        'as' => 'dashboard.'
+    ], function () {
+        Route::get('/profil', [App\Http\Controllers\AdherentController::class, 'index'])->name('profil');
+        Route::get('/profil/edit', [App\Http\Controllers\AdherentController::class, 'edit'])->name('profil.edit');
+        Route::get('/profil/beneficiaire', [App\Http\Controllers\AdherentController::class, 'viewBeneficiaires'])->name('profil.beneficiaire');
+        Route::PUT('/profil/edit/{id}', [App\Http\Controllers\AdherentController::class, 'update'])->name('profil.updateAdherent');
+        Route::get('/profil/Password', [App\Http\Controllers\AccountSetting::class, 'editPassword'])->name('profil.Password');
+        Route::PUT('/profil/changePassword', [App\Http\Controllers\AccountSetting::class, 'changePassword'])->name('profil.changePassword');
+    });
+    
 
-/* Route::name('dashboard.')->group(function () {
-    Route::get('/profil', [App\Http\Controllers\AdherentController::class, 'index'])->name('profil')->middleware(Authenticate::class);
-    Route::get('/profil/edit', [App\Http\Controllers\AdherentController::class, 'edit'])->name('edit')->middleware(Authenticate::class);
-    Route::PUT('/profil/edit/{Adherent}', [App\Http\Controllers\AdherentController::class, 'update'])->name('updateAdherent')->middleware(Authenticate::class);;
-}); */
+    // Pelerinage Routes
+    Route::get('/pelerinage',  function () {
+        return view('accueilPelerinage');
+    })->name('accueilPelerinage');
 
-Route::group([
-    "prefix" => "dashboard",
-    'as' => 'dashboard.'
-], function () {
-    Route::get('/profil', [App\Http\Controllers\AdherentController::class, 'index'])->name('profil')->middleware(Authenticate::class);
-    Route::get('/profil/edit', [App\Http\Controllers\AdherentController::class, 'edit'])->name('profil.edit')->middleware(Authenticate::class);
-    Route::get('/profil/beneficiaire', [App\Http\Controllers\AdherentController::class, 'viewBeneficiaires'])->name('profil.beneficiaire')->middleware(Authenticate::class);
-    Route::PUT('/profil/edit/{id}', [App\Http\Controllers\AdherentController::class, 'update'])->name('profil.updateAdherent')->middleware(Authenticate::class);
-    Route::get('/profil/Password', [App\Http\Controllers\AccountSetting::class, 'editPassword'])->name('profil.Password')->middleware(Authenticate::class);
-    Route::PUT('/profil/changePassword', [App\Http\Controllers\AccountSetting::class, 'changePassword'])->name('profil.changePassword')->middleware(Authenticate::class);
-});
+    Route::view('pelerinage/inscription', 'inscriptionPelerinage')->name('inscriptionPelerinage');
 
-// Route::get('/export', [App\Http\Controllers\EXportCarteController::class,'export'])->name('export');
-
-// Route::get('/card', [App\Http\Controllers\Exportcard::class,'ViewCard'])->name('card');
-// Route::POST('/savecard', [App\Http\Controllers\Exportcard::class,'saveCard'])->name('saveCard');
-// Route::get('/Adherents', [App\Http\Controllers\TextSearchController::class, 'index'])->name('search');
-
-
-// Pelerinage
-Route::get('/pelerinage',  function () {
-    return view('accueilPelerinage');
-})->name('accueilPelerinage');
-// Route::view('/adhesion/carte/liste-lots', 'liste-lots')->name('liste-lots');
-
-Route::view('pelerinage/inscription', 'inscriptionPelerinage')->name('inscriptionPelerinage');
-
-Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
-//for displaying PDF
+    Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
+  
+  //for displaying PDF
 Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');
+});
