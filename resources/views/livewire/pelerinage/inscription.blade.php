@@ -1,7 +1,7 @@
 <div class="card my-4">
     <div class="card-header">
         <h2 class="programmeAidePelerinage">
-            Programme d'aide au pèlerinage de l'annee {{ $pelerinage->Annee }}
+            Programme d'aide financière au pèlerinage de l'année {{ $pelerinage->Annee }}
         </H2>
     </div>
     <div class="card-body">
@@ -40,7 +40,6 @@
 
                     </div>
                 </div>
-
                 @if ($statut == 'F')
                     <div class="row">
                         <div class="col-md-6">
@@ -157,6 +156,8 @@
                     </div>
                 @endif
             </div>
+            {{-- @elseif ($currentStep == 2 && $statut != 'Unknown')
+            <h5>Liste des documents requis pour la demande d'aide financière au pèlerinage.</h5> --}}
         @endif
         <div class="row mx-4 my-4">
             <div class="col">
@@ -273,7 +274,89 @@
                             </div>
                         </div>
                     @elseif ($currentStep == 2 && $statut != 'Unknown')
-                        <div class="panel" id="piece-jointes" x-show="open">
+                        <div class="panel" id="piece-jointes">
+                            <div class="card elevation-0">
+                                <div class="card-header" style="background-color: #025d38; color: white">
+                                    <h5>Documents requis </h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class=" table table-stripped">
+                                        <thead class="table table-secondary">
+                                            <th>Type document</th>
+                                            <th colspan="2"></th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($listeDocuments as $doc)
+                                                <tr>
+                                                    <td>{{ $doc->Titre }} :</td>
+                                                    <td><a class="btn btn-primary" href="#"
+                                                            role="button">voir</a>
+                                                    </td>
+                                                    <td><a class="btn btn-primary" href="#"
+                                                            role="button">Téléverser</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            {{-- <tr>
+                                                <td>Demande adressée au président de la Fondation dument rempli :</td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Copie de la facture ou de la quittance de paiement des dépenses :
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Certificat des services du ministère de la Santé et de la Protection
+                                                    Sociale ou des institutions publiques relevant de sa compétence,
+                                                    attestant que le demandeur, en tant qu'exerçant ou retraité, n'a pas
+                                                    bénéficié précédemment du pèlerinage :</td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Déclaration sur l'honneur dans laquelle le demandeur atteste de
+                                                    l'authenticité de tous les documents fournis conformément aux
+                                                    conditions requises dans cette annonce :</td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Copie du visa pour effectuer les rites du Hajj, ainsi que de la
+                                                    première page du passeport et du cachet d'entrée et de sortie du
+                                                    Royaume d'Arabie saoudite. :</td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Attestation de Relevé d'Identité Bancaire (RIB) originale :</td>
+                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                </td>
+                                                <td><a class="btn btn-primary" href="#"
+                                                        role="button">Téléverser</a>
+                                                </td>
+                                            </tr> --}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col">
                                     @error('AttestationDuPremiereParticipation')
@@ -281,8 +364,7 @@
                                     @enderror
                                     <div class="form-group row">
                                         <label for="AttestationDuPremiereParticipation"> Attestation de première
-                                            participation au
-                                            Hajj
+                                            participation au pèlerinage
                                         </label>
                                         <input type="file" class="form-control-file "
                                             id="AttestationDuPremiereParticipation"
@@ -354,24 +436,27 @@
                             </div>
                         </div>
                     @endif
-                    <div class="card-footer bg-white">
-                        <div class="row">
-                            <div class="col d-flex justify-content-end">
-                                @if ($currentStep == 1 && $statut != 'Unknown')
-                                    <button type="button" class="btn btn-primary"
-                                        wire:click.prevent="nextStep()">Étape
-                                        suivante</button>
-                                @elseif ($currentStep == 2 && $statut != 'Unknown')
-                                    <button type="button" class="btn btn-outline-secondary mx-3"
-                                        wire:click.prevent="previousStep()">Étape precedente</button>
-                                    <button type="button" class="btn btn-success"
-                                        wire:click.prevent="demander()">Enregistrer</button>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="card-footer bg-light">
+        @if ($currentStep == 1 && $statut != 'Unknown')
+            <div class="row">
+                <div class="col d-flex justify-content-end">
+                    <button type="button" class="buttonNext" wire:click.prevent="nextStep()">Étape
+                        suivante</button>
+                </div>
+            </div>
+        @elseif ($currentStep == 2 && $statut != 'Unknown')
+            <div class="row">
+                <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
+                        wire:click.prevent="previousStep()">Étape precedente</button></div>
+                <div class="col-md-6 d-flex justify-content-end"> <button type="button" class="buttonNext"
+                        wire:click.prevent="demander()">Enregistrer</button></div>
+            </div>
+        @endif
+    </div>
+</div>
+</div>
 </div>
