@@ -172,14 +172,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    @error('dateNaissance')
-                                        <div class="alert alert-default-danger">{{ $message }}</div>
-                                    @enderror
                                     <div class="form-group">
                                         <label for="dateNaissance">Date de naissance :</label>
                                         <input type="date" class="form-control" id="dateNaissance"
                                             name="dateNaissance" wire:model.lazy="dateNaissance" max="9999-12-31">
                                     </div>
+                                    @error('dateNaissance')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -195,55 +195,56 @@
                                     critères
                                     requis.</div>
                             @endif
-                            @if ($shouldRetire)
-                                <div class="row pt-1">
-                                    <div class="col-md-6">
-                                        <div class="form-group d-flex justify-content-start align-items-center">
-                                            <label for="statut" style="color: red">Êtes-vous déjà à la retraite
-                                                ?</label>
-                                            <span class="icheck-danger d-inline px-3">
-                                                <input type="radio" name="statut" id="statutRetraite" value="R"
-                                                    checked wire:model.lazy="statut" />
-                                                <label for="statutRetraite">
-                                                    Oui
-                                                </label>
-                                            </span>
-                                            <span class="icheck-green d-inline px-3">
-                                                <input type="radio" name="statut" id="statutFonctionnaire"
-                                                    value="F" wire:model.lazy="statut" />
-                                                <label for="statutFonctionnaire">
-                                                    Non
-                                                </label>
-                                            </span>
+                            {{-- @if ($shouldRetire) --}}
+                            <div class="row pt-1">
+                                <div class="col-md-6">
+                                    <div class="form-group d-flex justify-content-start align-items-center">
+                                        <label for="statut" style="color: maroon">Êtes-vous déjà à la retraite
+                                            ?</label>
+                                        <span class="icheck-danger d-inline px-3">
+                                            <input type="radio" name="statut" id="statutRetraite" value="R"
+                                                checked wire:model.lazy="statut" />
+                                            <label for="statutRetraite">
+                                                Oui
+                                            </label>
+                                        </span>
+                                        <span class="icheck-green d-inline px-3">
+                                            <input type="radio" name="statut" id="statutFonctionnaire" value="F"
+                                                wire:model.lazy="statut" />
+                                            <label for="statutFonctionnaire">
+                                                Non
+                                            </label>
+                                        </span>
 
-                                        </div>
                                     </div>
                                 </div>
-                                @if ($displayDateRetraite)
-                                    <div class="row pt-1">
-                                        <div class="col-md-6">
-                                            @error('dateRetraite')
-                                                <div class="alert alert-default-danger">{{ $message }}</div>
-                                            @enderror
-                                            <div class="form-group">
-                                                <label for="dateRetraite">Date depart a la retraite :</label>
-                                                <input type="date" class="form-control" max="9999-12-31"
-                                                    wire:model="dateRetraite">
-                                            </div>
+                            </div>
+                            @if ($displayDateRetraite)
+                                <div class="row pt-1">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="dateRetraite">Date depart a la retraite :</label>
+                                            <input type="date" class="form-control" max="9999-12-31"
+                                                wire:model="dateRetraite">
                                         </div>
+                                        @error('dateRetraite')
+                                            <div class="alert alert-default-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
-                                @endif
+                                </div>
                             @endif
+                            {{-- @endif --}}
                             <div class="row">
                                 <div class="col-md-6">
-                                    @error('dateRecrutement')
-                                        <div class="alert alert-default-danger">{{ $message }}</div>
-                                    @enderror
+
                                     <div class="form-group">
                                         <label for="dateRecrutement">Date de recrutement :</label>
                                         <input type="date" class="form-control" max="9999-12-31"
                                             wire:model="dateRecrutement">
                                     </div>
+                                    @error('dateRecrutement')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             @if ($correctAnciennete)
@@ -261,17 +262,17 @@
                                     d'au moins
                                     10 ans.</div>
                             @endif
-                            @error('DejaBeneficierDuPelerinage')
-                                <div class="alert alert-default-danger">{{ $message }}</div>
-                            @enderror
+
                             <div class="checkbox row pt-3 mx-1">
-                                <label>
-                                    <input class="" type="checkbox" name="DejaBeneficierDuPelerinage"
-                                        class="mx-2" checked='false'>
-                                    Avez-vous bénéficié précédemment d'une aide financière pour un pèlerinage antérieur
-                                    ?
+                                <label class="px-4">
+                                    <input class="" type="checkbox" name="DejaBeneficiant" checked='false'
+                                        wire:model="dejaBeneficiant">
+                                    J'atteste que je n'ai jamais bénéficié précédemment du pèlerinage.
                                 </label>
                             </div>
+                            @error('dejaBeneficiant')
+                                <div class="alert alert-default-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     @elseif ($currentStep == 2 && $statut != 'Unknown')
                         <div class="panel" id="piece-jointes">
@@ -314,7 +315,13 @@
                                                         </p>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($demande)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $demande->getClientOriginalName(), 'path' => $demande->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-demande" class="custom-file-upload">
                                                         Téléverser
@@ -333,7 +340,13 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($facture)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $facture->getClientOriginalName(), 'path' => $facture->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-facture" class="custom-file-upload">
                                                         Téléverser
@@ -356,7 +369,13 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($certificat)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $certificat->getClientOriginalName(), 'path' => $certificat->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-certificat" class="custom-file-upload">
                                                         Téléverser
@@ -377,7 +396,13 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($declaration)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $declaration->getClientOriginalName(), 'path' => $declaration->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-declaration" class="custom-file-upload">
                                                         Téléverser
@@ -398,7 +423,13 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($visa)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $visa->getClientOriginalName(), 'path' => $visa->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-visa" class="custom-file-upload">
                                                         Téléverser
@@ -416,7 +447,13 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><a class="btn btn-primary" href="#" role="button">voir</a>
+                                                <td>
+                                                    @if ($rib)
+                                                        <a class="btn btn-primary"
+                                                            href="{{ route('pdf.show', ['filename' => $rib->getClientOriginalName(), 'path' => $rib->getRealPath()]) }}"
+                                                            target="_blank" rel="noopener noreferrer"
+                                                            role="button">voir</a>
+                                                    @endif
                                                 </td>
                                                 <td><label for="file-rib" class="custom-file-upload">
                                                         Téléverser
@@ -524,7 +561,7 @@
                 <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
                         wire:click.prevent="previousStep()">Étape precedente</button></div>
                 <div class="col-md-6 d-flex justify-content-end"> <button type="button" class="buttonNext"
-                        wire:click.prevent="demander()">Enregistrer</button></div>
+                        wire:click.prevent="inscrire()">Enregistrer</button></div>
             </div>
         @endif
     </div>
