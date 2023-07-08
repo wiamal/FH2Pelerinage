@@ -11,6 +11,7 @@
     {{--  <link rel="stylesheet" href="{{asset('css/fonteawsome/css/all.css')}}" /> --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/costumCss.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}" />
 
     <!-- SweetAlert -->
     <!-- Include the wp theme -->

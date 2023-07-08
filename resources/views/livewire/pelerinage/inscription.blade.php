@@ -6,12 +6,13 @@
     </div>
     <div class="card-body">
         @if ($currentStep == 1)
-            <h5 class="mx-2 p-3">Bienvenue cher(e) pèlerin(e)</h5>
-            <div class="card rounded-3 bg-light mx-4 pt-2 px-3 pb-0" style="border-radius: 10px">
+            <h5 class="programmeAidePelerinage mx-2 p-3">Bienvenue cher(e) pèlerin(e)</h5>
+            <div class="bg-white mx-4 pt-2 px-3 pb-0" style="border-radius: 10px; border:1px dotted #025d38;">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group row">
-                            <label for="Nom" class="col-sm-6 col-form-label">Nom & prenom du pèlerin : </label>
+                        <div class="form-group row py-0">
+                            <label for="Nom" class="col-sm-6 col-form-label" style="color: #025d38">Nom & prenom du
+                                pèlerin(e) : </label>
                             <div class="col-sm-6">
                                 <input type="text" readonly class="form-control-plaintext" id="Nom"
                                     wire:model.lazy="nom">
@@ -22,12 +23,13 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group row">
+                        <div class="form-group row py-0">
                             <div class="col-sm-6">
                                 <input type="text" readonly class="form-control-plaintext" id="NomAr"
                                     style="text-align: right" wire:model="nomAr">
                             </div>
-                            <label for="NomAr" class="col-sm-6 col-form-label" style="text-align: right">: الاسم و
+                            <label for="NomAr" class="col-sm-6 col-form-label"
+                                style="text-align: right; color: #025d38">: الاسم و
                                 النسب
                             </label>
 
@@ -42,7 +44,8 @@
                     <div class="col-md-6">
                         @if ($statut = 'F')
                             <div class="form-group row">
-                                <label for="PPR" class="col-sm-6 col-form-label">PPR : </label>
+                                <label for="PPR" class="col-sm-6 col-form-label" style="color: #025d38">PPR :
+                                </label>
                                 <div class="col-sm-6">
                                     <input type="text" readonly class="form-control-plaintext" wire:model="ppr">
                                 </div>
@@ -192,7 +195,8 @@
                                     50
                                     ans.</div>
                             @elseif($correctAge)
-                                <div class="alert alert-success">Votre âge est éligible (>=50 ans) pour répondre aux
+                                <div class="alert alert-default-success">Votre âge est éligible (>=50 ans) pour répondre
+                                    aux
                                     critères
                                     requis.</div>
                             @endif
@@ -200,7 +204,7 @@
                                 <div class="row pt-1">
                                     <div class="col-md-6">
                                         <div class="form-group d-flex justify-content-start align-items-center">
-                                            <label for="statut" style="color: maroon">Êtes-vous déjà à la retraite
+                                            <label for="statut" style="color: red">Êtes-vous déjà à la retraite
                                                 ?</label>
                                             <span class="icheck-danger d-inline px-3">
                                                 <input type="radio" name="statut" id="statutRetraite" value="R"
@@ -220,6 +224,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($displayDateRetraite)
+                                    <div class="row pt-1">
+                                        <div class="col-md-6">
+                                            @error('dateRetraite')
+                                                <div class="alert alert-default-danger">{{ $message }}</div>
+                                            @enderror
+                                            <div class="form-group">
+                                                <label for="dateRetraite">Date depart a la retraite :</label>
+                                                <input type="date" class="form-control" max="9999-12-31"
+                                                    wire:model="dateRetraite">
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             @endif
                             @error('dateRecrutement')
                                 <div class="alert alert-default-danger">{{ $message }}</div>
@@ -230,7 +248,8 @@
                                     wire:model="dateRecrutement">
                             </div>
                             @if ($correctAnciennete)
-                                <div class="alert alert-success">Vous êtes admissible, ayant acquis une ancienneté d'au
+                                <div class="alert alert-default-success">Vous êtes admissible, ayant acquis une
+                                    ancienneté d'au
                                     moins 10
                                     ans
                                     conformément aux critères requis.

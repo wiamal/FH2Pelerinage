@@ -28,6 +28,7 @@ class Inscription extends Component
     public $dateNaissance, $dateRecrutement;
     public $shouldRetire = false;
     public $currentStep = 1;
+    public $displayDateRetraite, $dateRetraite;
 
     public function render()
     {
@@ -87,6 +88,7 @@ class Inscription extends Component
 
     public function updatedDateRecrutement($value)
     {
+        $dateDepartRetraite = \Carbon\Carbon::parse($value)->age;
         $anciennete = \Carbon\Carbon::parse($value)->age;
         if ($anciennete >= 10 && $anciennete < 50) {
             $this->correctAnciennete = true;
@@ -96,6 +98,16 @@ class Inscription extends Component
             $this->wrongAnciennete = true;
         }
     }
+
+    public function updatedStatut($value)
+    {
+        dd($value);
+        if ($value == 1)
+            $this->displayDateRetraite = true;
+        else
+            $this->displayDateRetraite = false;
+    }
+
     public function isFonctionnaire($adherent)
     {
         if ($adherent->PPR) {
