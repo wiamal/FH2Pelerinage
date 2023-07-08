@@ -43,9 +43,9 @@ class RegisteredUser extends Notification
         return (new MailMessage)
                     ->subject('Inscription sur le site Espace Adhérent')
                     ->greeting('Bonjour '.strtoupper( $notifiable->name).' ')
-                    ->line('Votre compte a bien été crée mais il doit etre confirmé, merci de cliquer sur le lien suivant')
+                    ->line('Votre compte a bien été crée mais il doit être confirmé, merci de cliquer sur le lien suivant')
                     ->action('Confirmer mon compte', url("/confirm/{$notifiable->id}/".urlencode($notifiable->confirmation_token)))
-                    ->line('merci d\'avoir utiliser notre application !');
+                    ->line('merci de confirmer votre compte!');
     }
 
     /**
