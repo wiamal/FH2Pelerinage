@@ -7,18 +7,18 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="{{ route('home') }}" class="nav-link">Accueil</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contacter-Nous</a>
-        </li>
+        </li> --}}
     </ul>
 
     <ul class="navbar-nav ml-auto">
 
         <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+            {{-- <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                 <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
+            </a> --}}
+            {{-- <div class="navbar-search-block">
                 <form class="form-inline">
                     <div class="input-group input-group-sm">
                         <input class="form-control form-control-navbar" type="search" placeholder="Search"
@@ -33,10 +33,10 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> --}}
         </li>
 
-        <li class="nav-item dropdown">
+       {{--  <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-comments"></i>
                 <span class="badge badge-danger navbar-badge">3</span>
@@ -92,9 +92,9 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
-        </li>
+        </li> --}}
 
-        <li class="nav-item dropdown">
+        {{-- <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
                 <span class="badge badge-warning navbar-badge">15</span>
@@ -119,12 +119,13 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
-        </li>
-        <li class="nav-item">
+        </li> --}}
+        {{-- <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
-        </li>
+
+        </li> --}}
 
         {{-- <li class="nav-item dropdown">
         <a class="nav-link py-0" data-toggle="dropdown" href="#">
@@ -162,5 +163,34 @@
               <i class="nav-icon fas fa-user"></i>
           </a>
       </li> --}}
+      <li class="nav-item dropdown">
+        <a class="nav-link py-0" data-toggle="dropdown" href="#">
+            <div class="d-flex justify-content-center align-items-center">
+              <img src="{{asset('images/user.png')}}" alt="User Avatar" class="rounded-circle mx-2" width="40">
+              <span class="strong">{{ Auth::user()->name }}</span>
+            </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+              <a href="{{ route('dashboard.profil') }}" class="dropdown-item">
+                  <i class="fas fa-user mr-2"></i> Mon profile
+              </a>
+            <div class="dropdown-divider"></div>
+              <a href="{{ route('dashboard.profil.Password') }}" class="dropdown-item">
+                  <i class="fas fa-lock mr-2"></i> Mot de passe
+              </a>
+            <div class="dropdown-divider"></div>
+            
+            <a href="{{ route('logout') }}" 
+               class="dropdown-item dropdown-footer text-danger"
+               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Déconnexion
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+    </li>
     </ul>
 </nav>

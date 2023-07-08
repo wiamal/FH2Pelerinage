@@ -100,7 +100,7 @@
 
                             <div class="row mb-0">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-action">
+                                    <button type="submit" class="btn btn-action w-100">
                                         {{ __('Register') }}
                                     </button>
                                 </div>

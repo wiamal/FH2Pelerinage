@@ -121,5 +121,17 @@
                 </li>
             </ul>
         </li>
+
+    </ul>
+    <!-- Left Side Of Navbar -->
+    <ul class="navbar-nav" style="top:90%;position:absolute;">
+        <a href="{{ route('logout') }}" class="nav-link btn btn-outline-secondary"
+            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            Déconnexion
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </ul>
 </nav>
