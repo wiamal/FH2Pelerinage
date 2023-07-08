@@ -1,54 +1,57 @@
-@extends('dashboard.dashboard')
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}">
-@endsection
-
-@section('content')
-    <div class="card my-4">
-        <div class="card-header">
-            <h2 class="programmeAidePelerinage">
-                Programme d'Aide au Pèlerinage pour L'Annee {{ $pelerinage->Annee }}
-            </H2>
-        </div>
-        <div class="card-body">
-            <h5>Bienvenue cher(chere) pelerin(e)</h5>
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" class="form-control bg-white no-border" wire:model.lazy="Nom"
-                        value="Nom du pèlerin : {{ $adherent->Nom . ' ' . $adherent->Prenom }}"
-                        style=" border: 0; box-shadow: none;">
-                    @error('Nom')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{-- <label for="NomAr" class="d-flex justify-content-end">
-                            الإسم العائلي
-                        </label> --}}
-                        <input type="text" class="form-control bg-white no-border" wire:model.lazy="NomAr"
-                            value="الاسم و النسب : {{ $adherent->NomAr . ' ' . $adherent->PrenomAr }}"
-                            style=" border: 0; box-shadow: none;">
-                        @error('NomAr')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-            @if ($statut = 'F')
+<div class="card my-4">
+    <div class="card-header">
+        <h2 class="programmeAidePelerinage">
+            Programme d'aide au pèlerinage de l'annee {{ $pelerinage->Annee }}
+        </H2>
+    </div>
+    <div class="card-body">
+        @if ($currentStep == 1)
+            <h5 class="mx-2 p-3">Bienvenue cher(e) pèlerin(e)</h5>
+            <div class="card rounded-3 bg-light mx-4 pt-2 px-3 pb-0" style="border-radius: 10px">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="PPR">PPR</label>
-                            <input type="text" class="form-control" wire:model.lazy="PPR"
-                                value="{{ $adherent->PPR }}">
-                            @error('PPR')
+                        <div class="form-group row">
+                            <label for="Nom" class="col-sm-6 col-form-label">Nom & prenom du pèlerin : </label>
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" id="Nom"
+                                    wire:model.lazy="nom">
+                            </div>
+                            @error('Nom')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <input type="text" readonly class="form-control-plaintext" id="NomAr"
+                                    style="text-align: right" wire:model="nomAr">
+                            </div>
+                            <label for="NomAr" class="col-sm-6 col-form-label" style="text-align: right">: الاسم و
+                                النسب
+                            </label>
+
+                            @error('NomAr')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                    </div>
                 </div>
-                {{-- <div class="row">
+                <div class="row">
+                    <div class="col-md-6">
+                        @if ($statut = 'F')
+                            <div class="form-group row">
+                                <label for="PPR" class="col-sm-6 col-form-label">PPR : </label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly class="form-control-plaintext" wire:model="ppr">
+                                </div>
+                                @error('PPR')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            {{-- <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="row">
                                     <div class="col-12">
@@ -67,20 +70,20 @@
                                 </div>
                             </div>
                         </div> --}}
-            @elseif ($statut = 'R')
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="PPR">Pension</label>
-                            <input type="text" class="form-control" wire:model.lazy="PPR"
-                                value="{{ $adherent->Pension_Retraite }}">
-                            @error('PPR')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                {{-- <div class="row">
+                        @elseif ($statut = 'R')
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="PPR">Pension</label>
+                                        <input type="text" class="form-control" wire:model.lazy="PPR"
+                                            value="{{ $adherent->Pension_Retraite }}">
+                                        @error('PPR')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="row">
                                         <div class="col-12">
@@ -111,10 +114,10 @@
                                     </div>
                                 </div>
                             </div> --}}
-            @elseif($statut = 'UR')
+                            {{-- @elseif($statut = 'UR')
                 <div class="row">
                     <div class="col-12">
-                        <div class="alert alert-danger text-center mx-5" role="alert">Vous n'avez pas informer
+                        <div class="alert alert-default-danger text-center mx-5" role="alert">Vous n'avez pas informer
                             la
                             Fondation Hassan II
                             de votre départ à la retraite. Merci de vous présentez à la fondation
@@ -135,14 +138,14 @@
                             </div>
                             <input type="hidden" name="EtatFonction" id="EtatFonction" value="FonctionaireRetraite">
                             @error('DateRetraite')
-                                <div class="col-12 alert alert-danger">{{ $message }}</div>
+                                <div class="col-12 alert alert-default-danger">{{ $message }}</div>
                             @enderror
                             <div class="col-12 form-group">
                                 <label for="DateRetraite">Date Retraite:</label>
                                 <input type="date" class="form-control" name="DateRetraite" id="DateRetraite">
                             </div>
                             @error('Pension')
-                                <div class="col-12 alert alert-danger">{{ $message }}</div>
+                                <div class="col-12 alert alert-default-danger">{{ $message }}</div>
                             @enderror
                             <div class="col-12 form-group">
                                 <label for="Pension">Attestation de pension:</label>
@@ -157,73 +160,107 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                        @endif
+                    </div>
                 </div>
-            @endif
-            <div class="row mx-5">
-                <div class="col">
-                    <form action="/demandePelerinage" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="">
-                            @if (isset($errorMessage))
-                                <div class="alert alert-danger text-center mx-5">{{ $errorMessage }}</div>
+            </div>
+        @endif
+        <div class="row mx-4 my-4">
+            <div class="col">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if ($currentStep == 1)
+                        <div class="panel">
+                            <div class="">
+                                @if (isset($errorMessage))
+                                    <div class="alert alert-default-danger text-center mx-5">{{ $errorMessage }}</div>
+                                @endif
+                            </div>
+                            @error('dateNaissance')
+                                <div class="alert alert-default-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group">
+                                <label for="dateNaissance">Date Naissance :</label>
+                                <input type="date" class="form-control" id="dateNaissance" name="dateNaissance"
+                                    wire:model.lazy="dateNaissance" max="9999-12-31">
+                            </div>
+                            @if ($wrongAge)
+                                <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
+                                    atteint
+                                    l'âge de
+                                    50
+                                    ans.</div>
+                            @elseif($correctAge)
+                                <div class="alert alert-success">Votre âge est éligible (>=50 ans) pour répondre aux
+                                    critères
+                                    requis.</div>
                             @endif
-                        </div>
+                            @if ($shouldRetire)
+                                <div class="row pt-1">
+                                    <div class="col-md-6">
+                                        <div class="form-group d-flex justify-content-start align-items-center">
+                                            <label for="statut" style="color: maroon">Êtes-vous déjà à la retraite
+                                                ?</label>
+                                            <span class="icheck-danger d-inline px-3">
+                                                <input type="radio" name="statut" id="statutRetraite" value="R"
+                                                    checked wire:model.lazy="statut" />
+                                                <label for="statutRetraite">
+                                                    Oui
+                                                </label>
+                                            </span>
+                                            <span class="icheck-green d-inline px-3">
+                                                <input type="radio" name="statut" id="statutFonctionnaire"
+                                                    value="F" wire:model.lazy="statut" />
+                                                <label for="statutFonctionnaire">
+                                                    Non
+                                                </label>
+                                            </span>
 
-
-
-
-
-                        @error('DateNaissance')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="form-group">
-                            <label for="DateNaissance">Date Naissance :</label>
-                            <input type="date" class="form-control" name="DateNaissance" id="DateNaissance">
-                        </div>
-
-                        @error('DateRecrutement')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="form-group">
-                            <label for="DateRecrutement">Date Recrutement :</label>
-                            <input type="date" class="form-control" name="DateRecrutement" id="DateRecrutement">
-                        </div>
-
-                        @error('DejaBeneficierDuPelerinage')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                        <div class="checkbox row">
-                            <label>
-                                <input type="checkbox" name="DejaBeneficierDuPelerinage" checked='false'> Avez-vous
-                                bénéficié
-                                auparavant
-                                du pèlerinage (Hajj)
-                            </label>
-                        </div>
-                        <div class="form-group d-flex justify-content-start align-items-center bg-light  p-2">
-                            <label for="statut">Etes-vous :</label>
-                            <span class="icheck-green d-inline px-3">
-                                <input type="radio" name="statut" id="statutFonctionnaire" value="oui"
-                                    @php if ($statut == 'F') echo "checked" @endphp wire:model.lazy="statut" />
-                                <label for="statutFonctionnaire">
-                                    Fonctionnaire
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @error('dateRecrutement')
+                                <div class="alert alert-default-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group">
+                                <label for="dateRecrutement">Date Recrutement :</label>
+                                <input type="date" class="form-control" max="9999-12-31"
+                                    wire:model="dateRecrutement">
+                            </div>
+                            @if ($correctAnciennete)
+                                <div class="alert alert-success">Vous êtes admissible, ayant acquis une ancienneté d'au
+                                    moins 10
+                                    ans
+                                    conformément aux critères requis.
+                                </div>
+                            @elseif($wrongAnciennete)
+                                <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
+                                    une
+                                    ancienneté
+                                    d'au moins
+                                    10 ans.</div>
+                            @endif
+                            @error('DejaBeneficierDuPelerinage')
+                                <div class="alert alert-default-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="checkbox row pt-3 mx-1">
+                                <label>
+                                    <input class="" type="checkbox" name="DejaBeneficierDuPelerinage"
+                                        class="mx-2" checked='false'>
+                                    Avez-vous bénéficié précédemment d'une aide financière pour un pèlerinage antérieur
+                                    ?
                                 </label>
-                            </span>
-                            <span class="icheck-danger d-inline px-3">
-                                <input type="radio" name="statut" id="statutRetraite" value="non"
-                                    @php if ($statut == 'R') echo "checked" @endphp wire:model.lazy="statut" />
-                                <label for="statutRetraite">
-                                    Retraite
-                                </label>
-                            </span>
+                            </div>
                         </div>
-                        {{-- @error('AttestationDuPremiereParticipation')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror --}}
-                        {{-- <div x-data="{ open: false }">
+                    @elseif ($currentStep == 2)
                         <div class="panel" id="piece-jointes" x-show="open">
                             <div class="row">
                                 <div class="col">
+                                    @error('AttestationDuPremiereParticipation')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
                                     <div class="form-group row">
                                         <label for="AttestationDuPremiereParticipation"> Attestation de première
                                             participation au
@@ -234,15 +271,16 @@
                                             name="AttestationDuPremiereParticipation">
                                     </div>
                                     @error('Demande')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
                                         <label for="Demande"> Demande adressée au directeur de l'institution </label>
-                                        <input type="file" class="form-control-file " id="Demande" name="Demande">
+                                        <input type="file" class="form-control-file " id="Demande"
+                                            name="Demande">
                                     </div>
 
                                     @error('DeclarationHonneurFH2')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
                                         <label for="DeclarationHonneurFH2"> Attestation de l'authenticité de tous les
@@ -254,7 +292,7 @@
                                     </div>
 
                                     @error('RecuDepenses')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
                                         <label for="RecuDepenses"> Recu des Depenses </label>
@@ -263,54 +301,58 @@
                                     </div>
 
                                     @error('Visa')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
                                         <label for="Visa"> Visa </label>
-                                        <input type="file" class="form-control-file " id="Visa" name="Visa">
+                                        <input type="file" class="form-control-file " id="Visa"
+                                            name="Visa">
                                     </div>
 
                                     @error('Passport')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
-                                        <label for="Passport"> Passport (la première page du passeport et le sceau d'entrée
+                                        <label for="Passport"> Passport (la première page du passeport et le sceau
+                                            d'entrée
                                             et de
                                             sortie du
                                             Royaume
                                             d'Arabie saoudite) </label>
-                                        <input type="file" class="form-control-file " id="Passport" name="Passport">
+                                        <input type="file" class="form-control-file " id="Passport"
+                                            name="Passport">
                                     </div>
 
                                     @error('ReleveDidentiteBanquer')
-                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group row ">
-                                        <label for="ReleveDidentiteBanquer"> Attestation de ReleveDidentiteBanquer </label>
+                                        <label for="ReleveDidentiteBanquer"> Attestation de ReleveDidentiteBanquer
+                                        </label>
                                         <input type="file" class="form-control-file " id="ReleveDidentiteBanquer"
                                             name="ReleveDidentiteBanquer">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col d-flex justify-content-end py-3 w-50">
-                                    <button type="button" class="btn btn-primary" x-on:click="open = ! open">Étape
-                                        suivante</button>
-                                </div>
-                            </div>
                         </div>
-                        <div class="row" x-show="!open">
+                    @endif
+                    <div class="card-footer bg-white">
+                        <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary"
-                                    wire:click.prevent={{ $next = true }}>Suivant</button>
+                                @if ($currentStep == 1)
+                                    <button type="button" class="btn btn-primary"
+                                        wire:click.prevent="nextStep()">Étape suivante</button>
+                                @else
+                                    <button type="button" class="btn btn-outline-secondary mx-3"
+                                        wire:click.prevent="previousStep()">Étape precedente</button>
+                                    <button type="button" class="btn btn-success"
+                                        wire:click.prevent="previousStep()">Enregistrer</button>
+                                @endif
                             </div>
                         </div>
-                    </div> --}}
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-
-
         </div>
     </div>
-@endsection
+</div>

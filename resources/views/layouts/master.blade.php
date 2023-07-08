@@ -20,32 +20,9 @@
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- jQuery -->
-    <script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
-
-    <!-- Bootstrap 4 -->
-    <script src="{{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}">
 
-    {{-- <script type="text/javascript">
-        $("document").ready(function() {
-            setTimeout(function() {
-                $("div.alert-time").remove();
-            }, 10000);
 
-            $('[data-toggle="tooltip"]').tooltip({
-                trigger: 'hover'
-            });
-
-            $('.with-tooltip').click(function() {
-                $('[data-toggle="tooltip"]').tooltip('hide');
-            });
-
-        });
-    </script> --}}
-    <!-- Scripts -->
-    {{--  @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     <style>
         /* 64ac15 */
         /*
@@ -369,7 +346,7 @@
             margin-top: 20px;
         }
     </style>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @livewireStyles
 </head>
 
