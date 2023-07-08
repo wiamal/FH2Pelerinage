@@ -49,26 +49,24 @@
                     {{-- <img src="{{asset('images/logo_fondation-text')}}" alt="logo" class="img-size-100 mr-3 img-circle"> --}}
                 </a>
             </div>
-
             <div class="card-body border-0">
                 <div class="text-center">
-                    <img class=" img-fluid" src="{{ asset('images/logo_fondation-text.png') }}" alt="logo">
+                    <img class=" img-fluid" src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="logo">
                 </div>
+                <hr>
             </div>
-
-
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="{{ asset('images/user1-128x128.jpg') }}" alt="User Avatar"
                             class="img-size-50 mr-3 img-circle">
                     </div>
                     <div class="info">
-                        {{-- <a href="#" class="d-block"><span class="strong">{{ userFullName() }}</span></a> --}}
+                       
                     </div>
-                </div>
+                </div> --}}
                 <!-- Sidebar Menu -->
                 <x-sidebar />
                 <!-- /.sidebar-menu -->

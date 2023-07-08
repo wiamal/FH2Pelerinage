@@ -88,17 +88,15 @@
 </li> --}}
 
         <li class="nav-item">
-            <a href="#" class="nav-link  ">
-                <i class="nav-icon fas fa-cogs"></i>
-                <p>
-                    Prestations
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
+          <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
+            <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
+                alt="">
+            <p>Pèlerinage</p>
+          </a>
+           {{-- <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="" class="nav-link ">
-                        {{-- <i class="icon- fa-sharp fa-umbrella-beach"></i> --}}
+                        
                         <img src="{{ asset('images/icons/prestations-icons/icons8-sun-lounger-color-16.png') }}"
                             class="mx-2" alt="">
                         <p> Estivage des Familles</p>
@@ -119,9 +117,8 @@
                         <p>Pèlerinage</p>
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </li>
-
     </ul>
     <!-- Left Side Of Navbar -->
     <ul class="navbar-nav" style="top:90%;position:absolute;">
