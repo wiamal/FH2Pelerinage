@@ -23,11 +23,15 @@ class Inscription extends Component
     public $estRetraite = false;
     public $statut;
     public $nom, $prenom, $nomAr, $prenomAr, $ppr, $pension;
+    public $age, $wrongAge = false, $correctAge = false;
+    public $correctAnciennete = false, $wrongAnciennete = false;
     public $dateNaissance, $dateRecrutement;
     public $shouldRetire = false;
+    public $currentStep = 1;
 
     public function render()
     {
+
         return view('livewire.pelerinage.inscription');
     }
 
@@ -63,11 +67,33 @@ class Inscription extends Component
     {
 
         if ($value) {
-            $age = \Carbon\Carbon::parse($this->dateNaissance)->age;
+            $age = \Carbon\Carbon::parse($value)->age;
 
-            if ($age >= 63 && $age <= 100) {
+            if ($age >= 63 && $age <= 100)
                 $this->shouldRetire = true;
+            else
+                $this->shouldRetire = false;
+            $dhuAlHijjah9 = \Carbon\Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah9);
+            $this->age = $dhuAlHijjah9->diffInYears(\Carbon\Carbon::parse($value));
+            if ($this->age < 50 && $this->age >= 18) {
+                $this->wrongAge = true;
+                $this->correctAge = false;
+            } elseif ($this->age > 50 && $this->age <= 100) {
+                $this->correctAge = true;
+                $this->wrongAge = false;
             }
+        }
+    }
+
+    public function updatedDateRecrutement($value)
+    {
+        $anciennete = \Carbon\Carbon::parse($value)->age;
+        if ($anciennete >= 10 && $anciennete < 50) {
+            $this->correctAnciennete = true;
+            $this->wrongAnciennete = false;
+        } elseif ($anciennete <= 1 && $anciennete > 10) {
+            $this->correctAnciennete = false;
+            $this->wrongAnciennete = true;
         }
     }
     public function isFonctionnaire($adherent)
@@ -91,6 +117,17 @@ class Inscription extends Component
 
             return false;
         }
+    }
+
+    public function nextStep()
+    {
+        if (++$this->currentStep > 2)
+            $this->currentStep = 2;
+    }
+    public function previousStep()
+    {
+        if (--$this->currentStep < 1)
+            $this->currentStep = 1;
     }
 
     public function demander(Request $r)
