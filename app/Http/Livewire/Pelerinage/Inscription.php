@@ -8,17 +8,25 @@ use App\Models\Adherent;
 use App\Models\fonction;
 use App\Models\retraite;
 use App\Models\Pelerinage;
+use App\Models\TypeDocumentPelerinage;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\inscriptionpelerinage;
-use App\Models\TypeDocumentPelerinage;
-use Illuminate\Support\Facades\Storage;
+use App\Models\PelerinageFile;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
+
 use Livewire\Component;
 
 class Inscription extends Component
 {
     use WithFileUploads;
+
+    // protected $listeners = ['documentUpdated'];
 
     public $pelerinage;
     public $adherent;
@@ -34,10 +42,31 @@ class Inscription extends Component
     public $currentStep = 1;
     public $displayDateRetraite, $dateRetraite;
     public $anciennete;
+    public $dejaBeneficiant;
+    public $selectedTypeDocument;
 
     // Liste documents
-    public $listeDocuments;
+    public $demande, $facture, $certificat, $declaration, $visa, $rib;
+    public $listeDocuments, $tmplisteDocuments = [];
+    public $filename;
+    public $path;
 
+    protected $rules = [
+        'dateNaissance' => 'required|date|before:today',
+        'dateRecrutement' => 'required|date|after:dateNaissance|before_or_equal:today',
+        'dejaBeneficiant' => 'required|accepted',
+        'dateRetraite' => 'nullable|required_if:statut,R|date|after:dateRecrutement',
+        'statut' => 'required|in:R,F',
+    ];
+
+    protected $messages = [
+        'dejaBeneficiant' => 'Vous ne devez pas avoir déjà bénéficié du pèlerinage.',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
 
     public function render()
     {
@@ -57,11 +86,13 @@ class Inscription extends Component
             $this->nom = $this->adherent->Nom . ' ' . $this->adherent->Prenom;
             $this->nomAr = $this->adherent->NomAr . ' ' . $this->adherent->PrenomAr;
             $this->estRetraite = $this->isRetraite($this->adherent);
-            if (!$this->estRetraite)
+            if (!$this->estRetraite) {
                 $this->estFonctionnaire = $this->isFonctionnaire($this->adherent);
-            if (!$this->estFonctionnaire) {
-                $this->statut = 'Unknown';
+                if (!$this->estFonctionnaire) {
+                    $this->statut = 'Unknown';
+                }
             }
+
 
 
             // if ($this->estRetraite) $this->statut = 'R';
@@ -76,18 +107,22 @@ class Inscription extends Component
         }
     }
 
+    // public function documentUpdated($value, $id)
+    // {
+    // }
+
     public function updatedDateNaissance($value)
     {
 
         if ($value) {
-            $age = \Carbon\Carbon::parse($value)->age;
+            $age = Carbon::parse($value)->age;
 
             if ($age >= 63 && $age <= 100)
                 $this->shouldRetire = true;
             else
                 $this->shouldRetire = false;
-            $dhuAlHijjah9 = \Carbon\Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah9);
-            $this->age = $dhuAlHijjah9->diffInYears(\Carbon\Carbon::parse($value));
+            $dhuAlHijjah9 = Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah);
+            $this->age = $dhuAlHijjah9->diffInYears(Carbon::parse($value));
             if ($this->age < 50 && $this->age >= 18) {
                 $this->wrongAge = true;
                 $this->correctAge = false;
@@ -103,7 +138,7 @@ class Inscription extends Component
         if ($this->statut == 'R')
             $this->anciennete = \Carbon\Carbon::parse($this->dateRetraite)->diffInYears(\Carbon\Carbon::parse($value));
         else {
-            $dhuAlHijjah9 = \Carbon\Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah9);
+            $dhuAlHijjah9 = \Carbon\Carbon::createFromFormat('Y-m-d', $this->pelerinage->DhuAlHijjah);
             $this->anciennete = $dhuAlHijjah9->diffInYears(\Carbon\Carbon::parse($value));
         }
         if ($this->anciennete >= 10 && $this->anciennete < 50) {
@@ -118,10 +153,35 @@ class Inscription extends Component
     public function updatedStatut($value)
     {
         // dd($value);
-        if ($value == 'R')
+        if ($value == 'R') {
             $this->displayDateRetraite = true;
-        else if ($value == 'F')
+        } elseif ($value == 'F')
             $this->displayDateRetraite = false;
+    }
+
+    public function updatedDemande($value)
+    {
+        $this->addTmpDocument($value, 1);
+    }
+    public function updatedFacture($value)
+    {
+        $this->addTmpDocument($value, 2);
+    }
+    public function updatedCertificat($value)
+    {
+        $this->addTmpDocument($value, 3);
+    }
+    public function updatedDeclaration($value)
+    {
+        $this->addTmpDocument($value, 4);
+    }
+    public function updatedVisa($value)
+    {
+        $this->addTmpDocument($value, 5);
+    }
+    public function updatedDRib($value)
+    {
+        $this->addTmpDocument($value, 6);
     }
 
     public function isFonctionnaire($adherent)
@@ -148,6 +208,7 @@ class Inscription extends Component
 
     public function nextStep()
     {
+        $this->validate();
         if (++$this->currentStep > 2)
             $this->currentStep = 2;
     }
@@ -156,6 +217,88 @@ class Inscription extends Component
         if (--$this->currentStep < 1)
             $this->currentStep = 1;
     }
+
+    public function addTmpDocument($file, $idType)
+    {
+        $replaced = false;
+        foreach ($this->tmplisteDocuments as $doc) {
+            if ($doc[1] == $idType) {
+                $doc[0] = $file;
+                $replaced = true;
+            }
+        }
+        if (!$replaced)
+            array_push($this->tmplisteDocuments, [$file, $idType]);
+    }
+
+    public function inscrire()
+    {
+        $this->validate();
+        // dd($this->compare());
+        DB::beginTransaction();
+        try {
+            if ($this->correctAge && $this->correctAnciennete && $this->dejaBeneficiant)
+                $id = InscriptionPelerinage::create([
+                    'IdAdherent' => $this->adherent->id_adh,
+                    'IdPelerinage' => $this->pelerinage->IdPelerinage,
+                    'DateNaissance' => $this->dateNaissance,
+                    'DateRecrutement' => $this->dateRecrutement,
+                    'DateRetraite' => $this->dateRetraite == null ? null : $this->dateRetraite,
+                    'Retraite' => $this->dateRetraite == null ? 0 : 1,
+                    'IdStatutInscriptionPelerinage' => $this->compare()
+                ])->IdInscription;
+            // (`IdFile`, `IdInscription`, `IdTypeDocument`, `URL`, `created_at`, `updated_at`)
+            $date = now()->format('Ymd');
+            $path = '/pelerinage_' . $this->pelerinage->Annee . '/' . $this->adherent->id_adh . '_' . $date . '/';
+
+            foreach ($this->tmplisteDocuments as $doc) {
+                $document = $doc[0];
+                $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
+                $filename = ((string) Str::orderedUuid()) . '.' . $ext;
+                $document->storeAs($path, $filename, $disk = 'public');
+                PelerinageFile::create(['IdInscription' => $id, 'IdTypeDocument' => $doc[1], 'URL' => $path . $filename]);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+            return back()->with('error', "Un problème est survenue lors de l'inscription de l'adhérent au programme du pelerinage");
+        }
+    }
+
+    public function smthWrong()
+    {
+    }
+
+    public function compare()
+    {
+        if ($this->statut == 'F' || $this->statut == 'R') {
+            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateNaissance;
+            if ($value != $this->dateNaissance)
+                return 4;
+
+            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateRecrutement;
+            if ($value != $this->dateRecrutement)
+                return 4;
+        }
+        if ($this->statut == 'R') {
+            if ($this->dateRetraite != null && $this->statut == 'R') {
+                $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateRetraite;
+                if ($value != $this->dateRetraite)
+                    return 4;
+            } elseif ($this->dateRetraite != null && $this->statut == 'F') {
+                return 5;
+            }
+        }
+        if ($this->statut == 'Unknown') {
+            return 5;
+        }
+        if (count($this->tmplisteDocuments) == 5)
+            return 2;
+        else
+            return 1;
+    }
+
 
     public function demander(Request $r)
     {

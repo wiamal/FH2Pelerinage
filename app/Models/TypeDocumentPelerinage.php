@@ -9,6 +9,6 @@ class TypeDocumentPelerinage extends Model
 {
     use HasFactory;
     protected $table = 'TypeDocumentPelerinage';
-    protected $primaryKey = ' IdTypeDocument ';
-    public $timestamps = false;
+    protected $primaryKey = 'IdTypeDocument';
+    // public $timestamps = false;
 }
