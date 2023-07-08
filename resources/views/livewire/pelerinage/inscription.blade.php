@@ -203,7 +203,7 @@
                                             ?</label>
                                         <span class="icheck-danger d-inline px-3">
                                             <input type="radio" name="statut" id="statutRetraite" value="R"
-                                                checked wire:model.lazy="statut" />
+                                                wire:model.lazy="statut" />
                                             <label for="statutRetraite">
                                                 Oui
                                             </label>
@@ -215,11 +215,10 @@
                                                 Non
                                             </label>
                                         </span>
-
                                     </div>
                                 </div>
                             </div>
-                            @if ($displayDateRetraite)
+                            @if ($displayDateRetraite || $statut == 'R')
                                 <div class="row pt-1">
                                     <div class="col-md-6">
                                         <div class="form-group">
