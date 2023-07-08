@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Pelerinage;
 
+use Livewire\WithFileUploads;
 use Carbon\Carbon;
 use App\Models\Adherent;
 use App\Models\fonction;
@@ -10,12 +11,15 @@ use App\Models\Pelerinage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\inscriptionpelerinage;
+use App\Models\TypeDocumentPelerinage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class Inscription extends Component
 {
+    use WithFileUploads;
+
     public $pelerinage;
     public $adherent;
     public $estFonctionnaire = false;
@@ -31,9 +35,12 @@ class Inscription extends Component
     public $displayDateRetraite, $dateRetraite;
     public $anciennete;
 
+    // Liste documents
+    public $listeDocuments;
+
+
     public function render()
     {
-
         return view('livewire.pelerinage.inscription');
     }
 
@@ -42,6 +49,7 @@ class Inscription extends Component
         $this->pelerinage = Pelerinage::latest()->first();
         $user = Auth::user();
         $idAdherent = $user->IdAdherent;
+        $this->listeDocuments = TypeDocumentPelerinage::all();
 
         if ($idAdherent) {
             $this->adherent = Adherent::where('id_adh', $idAdherent)->first();
@@ -271,14 +279,6 @@ class Inscription extends Component
             $fileNameToStore = $name . '.' . $extension;
             $paths[$fileName] = $file->storeAs('public/' . $folderName, $fileNameToStore);
         }
-
-
-
-
-
-
-
-
 
         $inscription = new inscriptionpelerinage();
         $inscription->IdAdherent = $idAdherent;
