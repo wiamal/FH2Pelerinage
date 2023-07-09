@@ -4,15 +4,12 @@
 <div class="container-form">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card border-0">
-                <div class="card-header bg-white d-flex justify-content-center"><h4>{{ __('Mot de passe oublié') }}</h4></div>
-
-                <div class="card-body">
+            <div class="card border-0 shadow-sm rounded">
+                <div class="card-header bg-white d-flex justify-content-center"><h6>{{ __('Mot de passe oublié') }}</h6></div>
+                <div class="card-body  p-4" style="min-width: 400px;">
                     {{ __('Veuillez confirmer votre mot de passe avant de continuer.') }}
-
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
-
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="input-group input-group-icon">

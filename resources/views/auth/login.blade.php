@@ -1,19 +1,15 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container text-center text-guide">
-        <div class="">
-            <h3>
-                
-            </h3>
-        </div>
-    </div>
-    <div class="container-form">
-        <div class="row">
-            <div class="card border-0 ">
-                <div class="card-header bg-white d-flex justify-content-center">
-                    <h4 class="text-muted">{{ __('Connectez-vous à votre compte.') }}</h4>
-                </div>
-                <div class="card-body p-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded">
+                <div class="card-body p-4" style="min-width: 400px;">
+                    <div class="text-center mb-5" >
+                        <h6 class="text-muted">
+                            {{ __('Connectez-vous à votre compte.') }}
+                        </h6>
+                    </div>
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="row mb-3">
@@ -56,23 +52,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-0">
-                            <div class="col-half">
+                        <div class="row mb-2">
+                            <div class="col">
                                 <button type="submit" class="btn btn-action w-100">
                                     {{ __('Se connecter') }}
                                 </button>
                             </div>
-                            <div class="col-half d-flex justify-content-end">
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Mot de passe oublié?') }}
-                                    </a>
-                                @endif
-                            </div>
                         </div>
                     </form>
+                    <div class="row mb-0 p-0">
+                        <div class="col d-flex justify-content-end">
+                            @if (Route::has('password.request'))
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Mot de passe oublié?') }}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection

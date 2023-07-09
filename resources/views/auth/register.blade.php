@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container-sm text-center text-guide">
-        <p>
+        <p class="text-muted">
             Commencez par créer votre compte Espace Adhérent. Vous possédez un compte ?
             <a href="{{ route('login') }}" class="btn btn-link p-0" rel="noopener noreferrer">Connectez-vous.</a>
         </p>
@@ -9,12 +9,12 @@
     <div class="container-form">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card border-0">
-                    <div class="card-header bg-white d-flex justify-content-center">
+                <div class="card border-0 shadow-sm rounded">
+                    {{-- <div class="card-header bg-white d-flex justify-content-center">
                         <h4>{{ __('Inscription') }}</h4>
-                    </div>
+                    </div> --}}
 
-                    <div class="card-body">
+                    <div class="card-body  p-4" style="min-width: 500px;">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="row mb-3">
