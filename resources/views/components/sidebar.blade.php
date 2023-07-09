@@ -7,7 +7,7 @@
                 <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
                     alt="">
                 <p>
-                    Accueil
+                  Pèlerinage
                 </p>
             </a>
         </li>
