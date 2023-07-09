@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container-sm text-center text-guide">
         <p>
@@ -113,5 +112,3 @@
     </div>
 @endsection
 
-{{-- 
-<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password"> --}}

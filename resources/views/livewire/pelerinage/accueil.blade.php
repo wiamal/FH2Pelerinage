@@ -64,11 +64,9 @@
            </div>
            <div class="row mb-2">
             <div class="col-12  p-0">
-                <div class="text-warning bg-light-warning border border-warning rounded p-2 font-weight-bold mb-2">
-                    Note: Les membres retraités souhaitant bénéficier de ce service doivent régulariser leur situation
-                    vis-à-vis
-                    de
-                    l'institution de manière proactive.
+                <div class="text-danger bg-light-danger border border-danger rounded p-2 font-weight-bold mb-2">
+                    
+                    Remarque : Les adhérents retraités qui souhaitent bénéficier de cette prestation doivent mettre à jour leur dossier d'adhésion auprès de la Fondation Hassan II dans les plus brefs délais.
                 </div>
                 <p><span class="text-dark font-weight-bold"> Pour participer, remplir le formulaire d'inscription disponible sur notre
                     site.</span> 

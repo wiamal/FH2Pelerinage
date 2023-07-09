@@ -1,22 +1,19 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container text-center text-guide">
         <div class="">
             <h3>
-                Connectez-vous à votre compte.
+                
             </h3>
         </div>
     </div>
     <div class="container-form">
-
         <div class="row">
-
-            <div class="card border-0">
-                {{--   <div class="card-header bg-white d-flex justify-content-center"><h4>{{ __('Connexion') }}</h4>
+            <div class="card border-0 ">
+                <div class="card-header bg-white d-flex justify-content-center">
+                    <h4 class="text-muted">{{ __('Connectez-vous à votre compte.') }}</h4>
                 </div>
- --}}
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="row mb-3">
@@ -61,7 +58,7 @@
                         </div>
                         <div class="row mb-0">
                             <div class="col-half">
-                                <button type="submit" class="btn btn-action">
+                                <button type="submit" class="btn btn-action w-100">
                                     {{ __('Se connecter') }}
                                 </button>
                             </div>
@@ -79,20 +76,3 @@
         </div>
     </div>
 @endsection
-
-{{-- 
-     <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Adresse Email') }}</label>
-    
-    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-<label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Mot de Passe') }}</label>
-    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
- 
-    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Se souvenir de moi') }}
-                                    </label>
- 
- 
-    --}}

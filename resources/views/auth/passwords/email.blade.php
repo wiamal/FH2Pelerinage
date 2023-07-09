@@ -47,7 +47,7 @@
 
                         <div class="row mb-0">
                             <div class="col d-flex justify-content-center">
-                                <button type="submit" class="btn btn-action">
+                                <button type="submit" class="btn btn-action w-100">
                                     {{ __('Envoyer le lien de réinitialisation du mot de passe') }}
                                 </button>
                             </div>

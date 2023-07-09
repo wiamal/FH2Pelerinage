@@ -29,7 +29,7 @@ Route::get('/confirm/{id}/{token}', '\App\Http\Controllers\Auth\RegisterControll
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/', function () {
-        return view('dashboard.dashboard');
+        return view('accueilPelerinage');
     });
     Route::group([
         "prefix" => "dashboard",
