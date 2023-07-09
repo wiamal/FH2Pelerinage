@@ -1,8 +1,7 @@
-<div class="card my-4">
-    <div class="card-header">
-        <h2 class="programmeAidePelerinage">
-            Programme d'aide financière au pèlerinage de l'année {{ $pelerinage->Annee }}
-        </H2>
+<div class="card my-2">
+    <div class="card-header d-flex justify-content-center text-center">
+        <h5 class="programmeAidePelerinage title-card-header"> Programme d'aide financière au pèlerinage de l'année
+            {{ $pelerinage->Annee }}</h5>
     </div>
     <div class="card-body">
         @if ($currentStep == 1)
@@ -180,21 +179,53 @@
                                     @error('dateNaissance')
                                         <div class="alert alert-default-danger">{{ $message }}</div>
                                     @enderror
+                                    @if ($wrongAge)
+                                        <div class="alert alert-default-danger">Pour être éligible, il est nécessaire
+                                            d'avoir
+                                            atteint
+                                            l'âge de
+                                            50
+                                            ans.
+                                        </div>
+                                    @elseif($correctAge)
+                                        <div class="alert alert-default-success">Votre âge est éligible (>=50 ans) pour
+                                            répondre
+                                            aux
+                                            critères
+                                            requis.
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dateRecrutement">Date de recrutement :</label>
+                                        <input type="date" class="form-control" max="9999-12-31"
+                                            wire:model="dateRecrutement">
+                                    </div>
+                                    @error('dateRecrutement')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
+                                    @if ($correctAnciennete)
+                                        <div class="alert alert-default-success">Vous êtes admissible, ayant acquis une
+                                            ancienneté d'au
+                                            moins 10
+                                            ans
+                                            conformément aux critères requis.
+                                        </div>
+                                    @endif
+                                    @if ($wrongAnciennete)
+                                        <div class="alert alert-default-danger">Pour être éligible, il est nécessaire
+                                            d'avoir
+                                            une
+                                            ancienneté
+                                            d'au moins
+                                            10 ans.</div>
+                                    @endif
+
                                 </div>
                             </div>
 
-                            @if ($wrongAge)
-                                <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
-                                    atteint
-                                    l'âge de
-                                    50
-                                    ans.</div>
-                            @elseif($correctAge)
-                                <div class="alert alert-default-success">Votre âge est éligible (>=50 ans) pour répondre
-                                    aux
-                                    critères
-                                    requis.</div>
-                            @endif
+
                             {{-- @if ($shouldRetire) --}}
                             <div class="row pt-1">
                                 <div class="col-md-6">
@@ -209,8 +240,8 @@
                                             </label>
                                         </span>
                                         <span class="icheck-green d-inline px-3">
-                                            <input type="radio" name="statut" id="statutFonctionnaire" value="F"
-                                                wire:model.lazy="statut" />
+                                            <input type="radio" name="statut" id="statutFonctionnaire"
+                                                value="F" wire:model.lazy="statut" />
                                             <label for="statutFonctionnaire">
                                                 Non
                                             </label>
@@ -218,56 +249,33 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($displayDateRetraite || $statut == 'R')
-                                <div class="row pt-1">
-                                    <div class="col-md-6">
+
+                            {{-- @endif --}}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @if ($displayDateRetraite || $statut == 'R')
                                         <div class="form-group">
-                                            <label for="dateRetraite">Date depart a la retraite :</label>
+                                            <label for="dateRetraite">date départ à la retraite :</label>
                                             <input type="date" class="form-control" max="9999-12-31"
                                                 wire:model="dateRetraite">
                                         </div>
                                         @error('dateRetraite')
                                             <div class="alert alert-default-danger">{{ $message }}</div>
                                         @enderror
-                                    </div>
-                                </div>
-                            @endif
-                            {{-- @endif --}}
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <div class="form-group">
-                                        <label for="dateRecrutement">Date de recrutement :</label>
-                                        <input type="date" class="form-control" max="9999-12-31"
-                                            wire:model="dateRecrutement">
-                                    </div>
-                                    @error('dateRecrutement')
-                                        <div class="alert alert-default-danger">{{ $message }}</div>
-                                    @enderror
+                                    @endif
                                 </div>
                             </div>
-                            @if ($correctAnciennete)
-                                <div class="alert alert-default-success">Vous êtes admissible, ayant acquis une
-                                    ancienneté d'au
-                                    moins 10
-                                    ans
-                                    conformément aux critères requis.
-                                </div>
-                            @endif
-                            @if ($wrongAnciennete)
-                                <div class="alert alert-default-danger">Pour être éligible, il est nécessaire d'avoir
-                                    une
-                                    ancienneté
-                                    d'au moins
-                                    10 ans.</div>
-                            @endif
 
-                            <div class="checkbox row pt-3 mx-1">
-                                <label class="px-4">
-                                    <input class="" type="checkbox" name="DejaBeneficiant" checked='false'
-                                        wire:model="dejaBeneficiant">
-                                    J'atteste que je n'ai jamais bénéficié précédemment du pèlerinage.
-                                </label>
+                            <div class="row pt-3">
+                                <div class="col">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input class="" type="checkbox" name="DejaBeneficiant"
+                                                checked='false' wire:model="dejaBeneficiant">
+                                            J'atteste que je n'ai jamais bénéficié précédemment du pèlerinage.
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             @error('dejaBeneficiant')
                                 <div class="alert alert-default-danger">{{ $message }}</div>
@@ -600,12 +608,12 @@
         @elseif ($currentStep == 2 && $statut != 'Unknown')
             <div class="row">
                 <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
-                        wire:click.prevent="previousStep()">Étape precedente</button></div>
+                        wire:click.prevent="previousStep()">Étape precedente</button>
+                </div>
                 <div class="col-md-6 d-flex justify-content-end"> <button type="button" class="buttonNext"
-                        wire:click.prevent="inscrire()">Enregistrer</button></div>
+                        wire:click.prevent="inscrire()">Enregistrer</button>
+                </div>
             </div>
         @endif
     </div>
-</div>
-</div>
 </div>
