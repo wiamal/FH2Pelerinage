@@ -12,24 +12,21 @@
 
 .inscriptionbutton {
   display: inline-block;
-  padding: 12px 24px;
-  font-size: 20px;
-  background-color: #dfa921;
-  color: black;
+  padding: 8px 10px;
+  font-size: 18px;
+  border: 2px solid #025d38;
+  color: #025d38;
   text-decoration: none;
-  border-radius: 10px;
   text-align: center;
-  width: 250px;
+  width: 150px;
   max-width: 100%;
   transition: background-color 0.5s, color 0.5s;
   ;
 }
 
 .inscriptionbutton:hover {
-
-  background-color: #025d38;
-  color: white;
-
+  background-color: #dfa921;
+  color: #025d38;
 }
 
 .buttonNext {
@@ -58,12 +55,9 @@
 }
 
 .buttonNext:hover {
-
   background-color: #025d38;
   color: white;
-
 }
-
 
 .programmeAidePelerinage h2 {
   color: #025d38;
@@ -126,4 +120,44 @@ input[type="file"] {
   background-color: #1d9bf0;
   border-color: #1d9bf0;
   box-shadow: none;
+}
+
+/*//////////////////////////// background /////////////*/
+
+/*/////// BG badges ////////////////*/
+.bg-light-info {
+  background-color: rgb(13 202 240 / 18%) !important;
+}
+.bg-light-blue {
+  background-color: rgba(11, 65, 190, 0.18) !important;
+}
+.bg-light-success {
+  background-color: rgb(23 160 14 / .11) !important;
+}
+.bg-light-danger {
+  background-color: rgb(244 17 39 / .11) !important;
+}
+.bg-light-warning {
+  background-color: rgb(255 193 7 / .11) !important;
+}
+.bg-light-purple {
+  background-color: rgb(177 156 217 / .11) !important;
+}
+
+.title-card-header {
+  padding: 5px;
+  color: #000000 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  /* text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0, 0, 0, 0.06); */
+}
+
+.title-card-header::before {
+  content: '';
+  position: absolute;
+  left: 37.5%;
+  bottom: -2px;
+  width: 25%;
+  border-bottom: 4px solid #025d38;
 }
