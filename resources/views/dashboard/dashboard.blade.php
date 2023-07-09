@@ -51,7 +51,8 @@
             </div>
             <div class="card-body border-0">
                 <div class="text-center">
-                    <img class=" img-fluid" src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="logo">
+                    <img class=" img-fluid" src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}"
+                        alt="logo">
                 </div>
                 <hr>
             </div>
@@ -73,7 +74,7 @@
             </div>
             <!-- /.sidebar -->
             <!-- /wave -->
-           {{--  <svg style="pointer-events: none" class="wave" width="100%" height="70px" preserveAspectRatio="none"
+            {{--  <svg style="pointer-events: none" class="wave" width="100%" height="70px" preserveAspectRatio="none"
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 75">
                 <defs>
                     <style>
@@ -131,6 +132,7 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
+                    @livewire('flash.message')
                     <div class="row">
                         <div class="col-lg-12">
                             @yield('content')

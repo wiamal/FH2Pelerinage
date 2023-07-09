@@ -307,9 +307,16 @@
                                                     <p>Demande adressée au président de la Fondation dument rempli :</p>
                                                     @if ($demande)
                                                         <p>
-                                                            <a href="{{ route('pdf.show', ['filename' => $demande->getClientOriginalName(), 'path' => $demande->getRealPath()]) }}"
+                                                            <a href="{{ route('pdf.show', ['path' => $demande->getRealPath()]) }}"
                                                                 target="_blank" rel="noopener noreferrer">
                                                                 {{ $demande->getClientOriginalName() }}
+                                                            </a>
+                                                        </p>
+                                                    @elseif ($demandeBD)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $demandeBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($demandeBD) }}
                                                             </a>
                                                         </p>
                                                     @endif
@@ -337,6 +344,13 @@
                                                             target="_blank" rel="noopener noreferrer">
                                                             {{ $facture->getClientOriginalName() }}
                                                         </a>
+                                                    @elseif ($factureBD)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $factureBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($factureBD) }}
+                                                            </a>
+                                                        </p>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -362,16 +376,23 @@
                                                         pas
                                                         bénéficié précédemment du pèlerinage :</p>
                                                     @if ($certificat)
-                                                        <a href="{{ route('pdf.show', ['filename' => $certificat->getClientOriginalName(), 'path' => $certificat->getRealPath()]) }}"
+                                                        <a href="{{ route('pdf.show', ['path' => $certificat->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
                                                             {{ $certificat->getClientOriginalName() }}
                                                         </a>
+                                                    @elseif ($certificatBD != null)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $certificatBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($certificatBD) }}
+                                                            </a>
+                                                        </p>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($certificat)
                                                         <a class="btn btn-primary"
-                                                            href="{{ route('pdf.show', ['filename' => $certificat->getClientOriginalName(), 'path' => $certificat->getRealPath()]) }}"
+                                                            href="{{ route('pdf.show', ['path' => $certificat->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer"
                                                             role="button">voir</a>
                                                     @endif
@@ -389,16 +410,23 @@
                                                         l'authenticité de tous les documents fournis conformément aux
                                                         conditions requises dans cette annonce :</p>
                                                     @if ($declaration)
-                                                        <a href="{{ route('pdf.show', ['filename' => $declaration->getClientOriginalName(), 'path' => $declaration->getRealPath()]) }}"
+                                                        <a href="{{ route('pdf.show', ['path' => $declaration->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
                                                             {{ $declaration->getClientOriginalName() }}
                                                         </a>
+                                                    @elseif ($declarationBD != null)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $declarationBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($declarationBD) }}
+                                                            </a>
+                                                        </p>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($declaration)
                                                         <a class="btn btn-primary"
-                                                            href="{{ route('pdf.show', ['filename' => $declaration->getClientOriginalName(), 'path' => $declaration->getRealPath()]) }}"
+                                                            href="{{ route('pdf.show', ['path' => $declaration->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer"
                                                             role="button">voir</a>
                                                     @endif
@@ -416,16 +444,23 @@
                                                         première page du passeport et du cachet d'entrée et de sortie du
                                                         Royaume d'Arabie saoudite. :</p>
                                                     @if ($visa)
-                                                        <a href="{{ route('pdf.show', ['filename' => $visa->getClientOriginalName(), 'path' => $visa->getRealPath()]) }}"
+                                                        <a href="{{ route('pdf.show', ['path' => $visa->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
                                                             {{ $visa->getClientOriginalName() }}
                                                         </a>
+                                                    @elseif ($visaBD != null)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $visaBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($visaBD) }}
+                                                            </a>
+                                                        </p>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($visa)
                                                         <a class="btn btn-primary"
-                                                            href="{{ route('pdf.show', ['filename' => $visa->getClientOriginalName(), 'path' => $visa->getRealPath()]) }}"
+                                                            href="{{ route('pdf.show', ['path' => $visa->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer"
                                                             role="button">voir</a>
                                                     @endif
@@ -440,16 +475,23 @@
                                                 <td>
                                                     <p>Attestation de Relevé d'Identité Bancaire (RIB) originale :</p>
                                                     @if ($rib)
-                                                        <a href="{{ route('pdf.show', ['filename' => $rib->getClientOriginalName(), 'path' => $rib->getRealPath()]) }}"
+                                                        <a href="{{ route('pdf.show', ['path' => $rib->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
                                                             {{ $rib->getClientOriginalName() }}
                                                         </a>
+                                                    @elseif ($ribBD != null)
+                                                        <p>
+                                                            <a href="{{ route('pdf.show', ['path' => storage_path('app/public' . $ribBD)]) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ basename($ribBD) }}
+                                                            </a>
+                                                        </p>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($rib)
                                                         <a class="btn btn-primary"
-                                                            href="{{ route('pdf.show', ['filename' => $rib->getClientOriginalName(), 'path' => $rib->getRealPath()]) }}"
+                                                            href="{{ route('pdf.show', ['path' => $rib->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer"
                                                             role="button">voir</a>
                                                     @endif

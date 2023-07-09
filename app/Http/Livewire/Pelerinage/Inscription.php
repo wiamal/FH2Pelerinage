@@ -13,9 +13,12 @@ use App\Models\TypeDocumentPelerinage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\inscriptionpelerinage;
+use App\Models\InscriptionPelerinage as ModelsInscriptionPelerinage;
 use App\Models\PelerinageFile;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -44,12 +47,18 @@ class Inscription extends Component
     public $anciennete;
     public $dejaBeneficiant;
     public $selectedTypeDocument;
+    public $hasAccount = false;
 
     // Liste documents
     public $demande, $facture, $certificat, $declaration, $visa, $rib;
+    public $demandeBD, $factureBD, $certificatBD, $declarationBD, $visaBD, $ribBD;
+
     public $listeDocuments, $tmplisteDocuments = [];
     public $filename;
     public $path;
+
+    //Existing account
+    public $idInscription;
 
     protected $rules = [
         'dateNaissance' => 'required|date|before:today',
@@ -78,7 +87,37 @@ class Inscription extends Component
         $this->pelerinage = Pelerinage::latest()->first();
         $user = Auth::user();
         $idAdherent = $user->IdAdherent;
-        $this->listeDocuments = TypeDocumentPelerinage::all();
+        $result = InscriptionPelerinage::where('IdAdherent', $idAdherent)->first();
+        if (!empty($result)) {
+            $this->hasAccount = true;
+            $this->idInscription = $result->IdInscription;
+            $this->dateNaissance = $result->DateNaissance;
+            $this->dateRecrutement = $result->DateRecrutement;
+            if ($result->Retraite == 1) {
+                $this->dateRetraite = $result->DateRetraite;
+            }
+            $existing_files = PelerinageFile::where('IdInscription', $this->idInscription)->orderBy('IdTypeDocument')->get();
+            //dd($existing_files);
+
+            foreach ($existing_files as $file) {
+                //dd($file->URLL);
+                if ($file->IdTypeDocument == 1) {
+                    $this->demandeBD = $file->URL;
+                } elseif ($file->IdTypeDocument == 2) {
+                    $this->factureBD = $file->URL;
+                } elseif ($file->IdTypeDocument == 3) {
+                    $this->certificatBD = $file->URL;
+                } elseif ($file->IdTypeDocument == 4) {
+                    $this->declarationBD = $file->URL;
+                } elseif ($file->IdTypeDocument == 5) {
+                    $this->visaBD = $file->URL;
+                } elseif ($file->IdTypeDocument == 6) {
+                    $this->ribBD = $file->URL;
+                }
+            }
+            // dd($this->certificatBD);
+        }
+        //$this->listeDocuments = TypeDocumentPelerinage::all();
 
         if ($idAdherent) {
             $this->adherent = Adherent::where('id_adh', $idAdherent)->first();
@@ -92,8 +131,6 @@ class Inscription extends Component
                     $this->statut = 'Unknown';
                 }
             }
-
-
 
             // if ($this->estRetraite) $this->statut = 'R';
             // else {
@@ -179,7 +216,7 @@ class Inscription extends Component
     {
         $this->addTmpDocument($value, 5);
     }
-    public function updatedDRib($value)
+    public function updatedRib($value)
     {
         $this->addTmpDocument($value, 6);
     }
@@ -237,28 +274,73 @@ class Inscription extends Component
         // dd($this->compare());
         DB::beginTransaction();
         try {
-            if ($this->correctAge && $this->correctAnciennete && $this->dejaBeneficiant)
-                $id = InscriptionPelerinage::create([
-                    'IdAdherent' => $this->adherent->id_adh,
-                    'IdPelerinage' => $this->pelerinage->IdPelerinage,
+            if (!$this->hasAccount) {
+                if ($this->correctAge && $this->correctAnciennete && $this->dejaBeneficiant)
+                    $id = InscriptionPelerinage::create([
+                        'IdAdherent' => $this->adherent->id_adh,
+                        'IdPelerinage' => $this->pelerinage->IdPelerinage,
+                        'DateNaissance' => $this->dateNaissance,
+                        'DateRecrutement' => $this->dateRecrutement,
+                        'DateRetraite' => $this->dateRetraite == null ? null : $this->dateRetraite,
+                        'Retraite' => $this->dateRetraite == null ? 0 : 1,
+                        'IdStatutInscriptionPelerinage' => $this->compare()
+                    ])->IdInscription;
+                // (`IdFile`, `IdInscription`, `IdTypeDocument`, `URL`, `created_at`, `updated_at`)
+                $date = now()->format('Ymd');
+                $path = '/pelerinage_' . $this->pelerinage->Annee . '/' . $this->adherent->id_adh . '_' . $date . '/';
+
+                foreach ($this->tmplisteDocuments as $doc) {
+                    $document = $doc[0];
+                    $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $filename = ((string) Str::orderedUuid()) . '.' . $ext;
+                    $document->storeAs($path, $filename, $disk = 'public');
+                    PelerinageFile::create(['IdInscription' => $id, 'IdTypeDocument' => $doc[1], 'URL' => $path . $filename]);
+                }
+            } else {
+                $this->validate();
+                $updated = InscriptionPelerinage::where('IdInscription', $this->idInscription)->update([
                     'DateNaissance' => $this->dateNaissance,
                     'DateRecrutement' => $this->dateRecrutement,
-                    'DateRetraite' => $this->dateRetraite == null ? null : $this->dateRetraite,
-                    'Retraite' => $this->dateRetraite == null ? 0 : 1,
+                    'DateRetraite' => $this->statut == 'R' ? $this->dateRetraite : null,
+                    'Retraite' => $this->statut == 'R' ? 1 : 0,
                     'IdStatutInscriptionPelerinage' => $this->compare()
-                ])->IdInscription;
-            // (`IdFile`, `IdInscription`, `IdTypeDocument`, `URL`, `created_at`, `updated_at`)
-            $date = now()->format('Ymd');
-            $path = '/pelerinage_' . $this->pelerinage->Annee . '/' . $this->adherent->id_adh . '_' . $date . '/';
+                ]);
 
-            foreach ($this->tmplisteDocuments as $doc) {
-                $document = $doc[0];
-                $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
-                $filename = ((string) Str::orderedUuid()) . '.' . $ext;
-                $document->storeAs($path, $filename, $disk = 'public');
-                PelerinageFile::create(['IdInscription' => $id, 'IdTypeDocument' => $doc[1], 'URL' => $path . $filename]);
+                $date = now()->format('Ymd');
+                $path = '/pelerinage_' . $this->pelerinage->Annee . '/' . $this->adherent->id_adh . '_' . $date . '/';
+
+                $existing_files = PelerinageFile::where('IdInscription', $this->idInscription)->get();
+                if ($existing_files != null && $existing_files->isNotEmpty()) {
+                    foreach ($existing_files as $file) {
+                        foreach ($this->tmplisteDocuments as $index => $doc) {
+                            if ($file->IdTypeDocument == $doc[1]) {
+                                Storage::disk('public')->delete($file->URL);
+                                $document = $doc[0];
+                                $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
+                                $filename = ((string) Str::orderedUuid()) . '.' . $ext;
+                                $document->storeAs($path, $filename, $disk = 'public');
+                                PelerinageFile::where('IdFile', $file->IdFile)->update(['URL' => $path . $filename]);
+                                unset($this->tmplisteDocuments[$index]);
+                            }
+                        }
+                    }
+                }
+                foreach ($this->tmplisteDocuments as $doc) {
+                    $document = $doc[0];
+                    $ext = pathinfo($document->getClientOriginalName(), PATHINFO_EXTENSION);
+                    $filename = ((string) Str::orderedUuid()) . '.' . $ext;
+                    $document->storeAs($path, $filename, $disk = 'public');
+                    PelerinageFile::create(['IdInscription' => $this->idInscription, 'IdTypeDocument' => $doc[1], 'URL' => $path . $filename]);
+                }
             }
             DB::commit();
+            $this->hasAccount = true;
+            if (!$this->hasAccount)
+                session()->flash('success', "Demande enregistree avec succes.");
+            // return back()->with('success', "Demande enregistree avec succes.");
+            else
+                // return back()->with('success', "Modifications apportees avec succes.");
+                session()->flash('success', "Modifications apportees avec succes.");
         } catch (Exception $e) {
             DB::rollback();
             throw $e;
@@ -266,37 +348,39 @@ class Inscription extends Component
         }
     }
 
-    public function smthWrong()
-    {
-    }
-
     public function compare()
     {
+        // `Date_Affectation``Date_Retraite``Date_Naissance`
         if ($this->statut == 'F' || $this->statut == 'R') {
-            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateNaissance;
-            if ($value != $this->dateNaissance)
+            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Date_Naissance;
+            if (Carbon::parse($value) != Carbon::parse($this->dateNaissance)) {
                 return 4;
-
-            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateRecrutement;
-            if ($value != $this->dateRecrutement)
+            }
+            $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Date_Affectation;
+            if (Carbon::parse($value) != Carbon::parse($this->dateRecrutement)) {
                 return 4;
+            }
         }
         if ($this->statut == 'R') {
             if ($this->dateRetraite != null && $this->statut == 'R') {
-                $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->DateRetraite;
-                if ($value != $this->dateRetraite)
+                $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Date_Retraite;
+                if (Carbon::parse($value) != Carbon::parse($this->dateRetraite)) {
                     return 4;
-            } elseif ($this->dateRetraite != null && $this->statut == 'F') {
+                }
+            } elseif ($this->dateRetraite != null && $this->statut == 'F') { {
+                    return 5;
+                }
+            }
+        }
+        if ($this->statut == 'Unknown') { {
                 return 5;
             }
         }
-        if ($this->statut == 'Unknown') {
-            return 5;
-        }
-        if (count($this->tmplisteDocuments) == 5)
+        if (count($this->tmplisteDocuments) == 5) {
             return 2;
-        else
+        } else {
             return 1;
+        }
     }
 
 

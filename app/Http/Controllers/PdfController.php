@@ -11,7 +11,6 @@ class PdfController extends Controller
     public function show(Request $request)
     {
 
-        $filename = $request->input('filename');
         $path = $request->input('path');
 
         $pdfPath = $path;
