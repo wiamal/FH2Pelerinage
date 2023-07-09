@@ -316,6 +316,9 @@
                                             <tr>
                                                 <td>
                                                     <p>Demande adressée au président de la Fondation dument rempli :</p>
+                                                    <div wire:loading wire:target="demande">
+                                                        <x-loading-indicator/>
+                                                    </div>
                                                     @if ($demande)
                                                         <p>
                                                             <a href="{{ route('pdf.show', ['path' => $demande->getRealPath()]) }}"
@@ -350,6 +353,9 @@
                                                 <td>
                                                     <p>Copie de la facture ou de la quittance de paiement des dépenses :
                                                     </p>
+                                                    <div wire:loading wire:target="facture">
+                                                        <x-loading-indicator/>
+                                                    </div>
                                                     @if ($facture)
                                                         <a href="{{ route('pdf.show', ['filename' => $facture->getClientOriginalName(), 'path' => $facture->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
@@ -386,6 +392,9 @@
                                                         attestant que le demandeur, en tant qu'exerçant ou retraité, n'a
                                                         pas
                                                         bénéficié précédemment du pèlerinage :</p>
+                                                        <div wire:loading wire:target="certificat">
+                                                            <x-loading-indicator/>
+                                                        </div>
                                                     @if ($certificat)
                                                         <a href="{{ route('pdf.show', ['path' => $certificat->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
@@ -420,6 +429,9 @@
                                                     <p>Déclaration sur l'honneur dans laquelle le demandeur atteste de
                                                         l'authenticité de tous les documents fournis conformément aux
                                                         conditions requises dans cette annonce :</p>
+                                                        <div wire:loading wire:target="declaration">
+                                                            <x-loading-indicator/>
+                                                        </div>
                                                     @if ($declaration)
                                                         <a href="{{ route('pdf.show', ['path' => $declaration->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
@@ -454,6 +466,9 @@
                                                     <p>Copie du visa pour effectuer les rites du Hajj, ainsi que de la
                                                         première page du passeport et du cachet d'entrée et de sortie du
                                                         Royaume d'Arabie saoudite. :</p>
+                                                        <div wire:loading wire:target="visa">
+                                                            <x-loading-indicator/>
+                                                        </div>
                                                     @if ($visa)
                                                         <a href="{{ route('pdf.show', ['path' => $visa->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
@@ -485,6 +500,9 @@
                                             <tr>
                                                 <td>
                                                     <p>Attestation de Relevé d'Identité Bancaire (RIB) originale :</p>
+                                                    <div wire:loading wire:target="rib">
+                                                        <x-loading-indicator/>
+                                                    </div>
                                                     @if ($rib)
                                                         <a href="{{ route('pdf.show', ['path' => $rib->getRealPath()]) }}"
                                                             target="_blank" rel="noopener noreferrer">
