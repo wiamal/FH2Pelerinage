@@ -1,4 +1,4 @@
-@if ($message = Session::get('success'))success
+@if ($message = Session::get('success'))
     <div class="container">
         <div class="alert alert-success alert-block">
             <button type="button" class="close btn btn-flash  py-2" data-dismiss="alert"><i

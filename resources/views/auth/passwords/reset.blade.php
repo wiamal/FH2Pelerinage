@@ -1,19 +1,14 @@
 @extends('layouts.app')
-
 @section('content')
-
 <div class="container-form">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card border-0">
-                <div class="card-header bg-white d-flex justify-content-center"><h4>{{ __('Réinitialiser le mot de passe') }}</h4></div>
-
-                <div class="card-body">
+            <div class="card border-0 shadow-sm rounded">
+                <div class="card-header bg-white d-flex justify-content-center"><h6>{{ __('Réinitialiser le mot de passe') }}</h6></div>
+                <div class="card-body" style="min-width: 400px;">
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
-
                         <input type="hidden" name="token" value="{{ $token }}">
-
                         <div class="row mb-3">
                            
                             <div class="col">
@@ -28,11 +23,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                           
-                            <div class="col">
-                                    
+                        <div class="row mb-3"> 
+                            <div class="col">    
                                 <div class="input-group input-group-icon">
                                     <input id="password" type="password" placeholder="mot de passe" class=" @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"/>
                                     <div class="input-icon"><i class="fa fa-key"></i></div>
@@ -69,13 +61,3 @@
     </div>
 </div>
 @endsection
-
-                           {{--  <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div> --}}

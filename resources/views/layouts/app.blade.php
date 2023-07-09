@@ -18,20 +18,12 @@
     <link rel="stylesheet" href="{{ asset('css/pelerinage.css') }}">
 
     <style>
-        /* 64ac15 */
-        /*
-                        *,
-                        *:before,
-                        *:after {
-                        box-sizing: border-box;
-                        } */
-
         body {
-
             font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 15px;
             color: #b9b9b9;
             background-color: #e9eff3;
+
         }
 
         h4 {
@@ -224,7 +216,7 @@
             transition: all 0.35s ease-in-out;
         }
 
-        .container-form {
+        /*  .container-form {
             max-width: 38em;
             padding: 1em 3em 2em 3em;
             margin: 2em auto;
@@ -233,7 +225,7 @@
             /* box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2); */
         }
 
-        .row {
+        */ .row {
             zoom: 1;
         }
 
@@ -298,7 +290,7 @@
             color: #128ae0;
             transition: 0.35s ease-in-out;
             transition: all 0.35s ease-in-out;
-            
+
         }
 
         a.btn-link:hover {
@@ -345,20 +337,20 @@
 </head>
 
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand  shadow-sm px-2">
+
+    {{-- <nav class="navbar navbar-expand  shadow-sm px-2">
 
             <a class="navbar-brand bg-light rounded border border-secondary" href="{{ url('/') }}">
                 <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="">
             </a>
-            {{-- <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Fondation Hassan II') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button> --}}
+                </button> 
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
@@ -404,12 +396,56 @@
                 </ul>
             </div>
 
-        </nav>
-        <main class="">
-            @include('layouts.flash-message')
-            @yield('content')
-        </main>
+        </nav> --}}
+    <div class="container min-vh-100  d-flex justify-content-center flex-column align-items-center">
+        <div class="row p-4">
+                <div class="col d-flex justify-content-end align-items-end">
+                    <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="FH2santé">
+                </div>
+        </div>
+        @include('layouts.flash-message')
+        @yield('content')
+        <div class="row p-4">
+            <div class="col d-flex justify-content-end align-items-end">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="">
+                                <a class="btn btn-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
+                            </li>
+                            <hr class="w-100">
+                        @endif
+                        @if (Route::has('register'))
+                            <li class="">
+                                <a class="btn btn-link" href="{{ route('register') }}">{{ __('Inscription') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-dark" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
+        </div>
     </div>
+
     @if (Session::has('success'))
         <script type="text/javascript">
             swal.fire({
