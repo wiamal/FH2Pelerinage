@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/profil/Password', [App\Http\Controllers\AccountSetting::class, 'editPassword'])->name('profil.Password');
         Route::PUT('/profil/changePassword', [App\Http\Controllers\AccountSetting::class, 'changePassword'])->name('profil.changePassword');
     });
-    
+
 
     // Pelerinage Routes
     Route::get('/pelerinage',  function () {
@@ -51,9 +51,11 @@ Route::middleware(['auth'])->group(function () {
     })->name('accueilPelerinage');
 
     Route::view('pelerinage/inscription', 'inscriptionPelerinage')->name('inscriptionPelerinage');
+    Route::view('pelerinage/liste-inscrits', 'listeInscritsPelerinage')->name('liste-inscrits');
+
 
     Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
-  
-  //for displaying PDF
-Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');
+
+    //for displaying PDF
+    Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');
 });

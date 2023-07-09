@@ -119,6 +119,39 @@
                 </li>
             </ul> --}}
         </li>
+        @if (Auth::user()->name == 'admin')
+            <li class="nav-item">
+                <a href="{{ route('liste-inscrits') }}" class="nav-link  ">
+                    <i class="nav-icon fa-solid fa-kaaba"></i>
+                    <p>Administration</p>
+                </a>
+                {{-- <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="" class="nav-link ">
+                        
+                        <img src="{{ asset('images/icons/prestations-icons/icons8-sun-lounger-color-16.png') }}"
+                            class="mx-2" alt="">
+                        <p> Estivage des Familles</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href=" " class="nav-link ">
+                        <img src="{{ asset('images/icons/prestations-icons/icons8-graduation-cap-color-16.png') }}"
+                            class="mx-2" alt="">
+                        <p>Bourse de mérite</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
+                        <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
+                            alt="">
+                        <p>Pèlerinage</p>
+                    </a>
+                </li>
+            </ul> --}}
+            </li>
+        @endif
     </ul>
     <!-- Left Side Of Navbar -->
     <ul class="navbar-nav" style="top:90%;position:absolute;">
