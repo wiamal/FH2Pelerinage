@@ -3,7 +3,7 @@
         <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="{{ route('accueilPelerinage') }}" class="nav-link {{ setMenuClass('home', 'active') }} ">
+            <a href="{{ route('accueilPelerinage') }}" class="nav-link {{ setMenuClass('accueilPelerinage', 'active') }} ">
                 <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
                     alt="">
                 <p>
@@ -89,10 +89,10 @@
 </li> --}}
 
         <li class="nav-item">
-            <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
+            {{-- <a href="{{ route('accueilPelerinage') }}" class="nav-link  ">
                 <i class="nav-icon fa-solid fa-kaaba"></i>
                 <p>Pèlerinage</p>
-            </a>
+            </a> --}}
             {{-- <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="" class="nav-link ">
@@ -120,9 +120,11 @@
             </ul> --}}
         </li>
     </ul>
-    <!-- Left Side Of Navbar -->
-    <ul class="navbar-nav" style="top:90%;position:absolute;">
-        <a href="{{ route('logout') }}" class="nav-link btn btn-outline-secondary"
+    <!-- bottom Side Of Navbar -->
+    
+    
+    <ul class="navbar-nav bg-white shadow-sm rounded-5" style="top:90%;position:absolute;">
+        <a href="{{ route('logout') }}" class="nav-link btn btn-logout"
             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
             <i class="fas fa-sign-out-alt mr-2"></i>
             Déconnexion

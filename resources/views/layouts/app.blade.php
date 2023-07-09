@@ -298,7 +298,7 @@
             color: #128ae0;
             transition: 0.35s ease-in-out;
             transition: all 0.35s ease-in-out;
-
+            
         }
 
         a.btn-link:hover {
@@ -313,8 +313,8 @@
         }
 
         .navbar-expand {
-            background: rgb(0,168,132);
-            background: linear-gradient(90deg, rgb(0,168,132) 0%, rgb(23,162,184) 100%);
+            background: rgb(0, 168, 132);
+            background: linear-gradient(90deg, rgb(0, 168, 132) 0%, rgb(23, 162, 184) 100%);
 
         }
 
@@ -347,11 +347,11 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand  shadow-sm px-2">
-            
-                <a class="navbar-brand bg-light rounded border border-secondary" href="{{ url('/') }}">
-                    <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}"  alt="">
-                </a>
-                {{-- <a class="navbar-brand" href="{{ url('/') }}">
+
+            <a class="navbar-brand bg-light rounded border border-secondary" href="{{ url('/') }}">
+                <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="">
+            </a>
+            {{-- <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Fondation Hassan II') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -360,82 +360,56 @@
                     <span class="navbar-toggler-icon"></span>
                 </button> --}}
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
-                                </li>
-                            @endif
+                </ul>
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Inscription') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
+                            </li>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Inscription') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-dark" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item text-dark" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            
         </nav>
-
         <main class="">
-
-            {{-- <div class="container-sm d-flex justify-content-center my-2">
-                <img src="{{ asset('images/logo_fondation-text.png') }}" alt="">
-            </div> --}}
-
-
             @include('layouts.flash-message')
-
-            {{-- @if (session('success'))
-                <div class="container">
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                </div>               
-            @endif
-
-            @if (session('error'))
-                <div class="container">
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                </div>               
-            @endif --}}
-
             @yield('content')
-
         </main>
     </div>
-
     @if (Session::has('success'))
         <script type="text/javascript">
             swal.fire({
@@ -448,11 +422,9 @@
             }).catch(swal.noop);
         </script>
     @endif
-
     <script src="{{ asset('js/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     @livewireScripts
 </body>
 

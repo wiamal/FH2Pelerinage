@@ -6,11 +6,13 @@
     <div class="card-body">
         @if ($currentStep == 1)
             <h5 class="programmeAidePelerinage mx-2 p-3">Bienvenue cher(e) pèlerin(e)</h5>
-            <div class="bg-white mx-4 pt-2 px-3 pb-0" style="border-radius: 10px; border:1px dotted #025d38;">
+            <div class="mx-4 pt-2 px-3 pb-0"
+                style="border-radius: 10px; border:1px dotted #025d38;background: rgb(210,240,234);
+                background: linear-gradient(160deg, rgba(210,240,234,1) 0%, rgba(210,240,234,1) 8%, rgba(255,255,255,1) 100%);">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row py-0">
-                            <label for="Nom" class="col-sm-6 col-form-label" style="color: #025d38">Nom & prenom du
+                            <label for="Nom" class="col-sm-6 col-form-label" style="color: #025d38">Nom & prénom du
                                 pèlerin(e) : </label>
                             <div class="col-sm-6">
                                 <input type="text" readonly class="form-control-plaintext" id="Nom"
@@ -78,7 +80,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label for="Pension" class="col-sm-6 col-form-label" style="color: #025d38">Nnumero de
+                                <label for="Pension" class="col-sm-6 col-form-label" style="color: #025d38">Numéro de
                                     pension :
                                 </label>
                                 <div class="col-sm-6">
@@ -267,7 +269,7 @@
                             </div>
 
                             <div class="row pt-3">
-                                <div class="col">
+                                <div class="col-6">
                                     <div class="checkbox">
                                         <label>
                                             <input class="" type="checkbox" name="DejaBeneficiant"
@@ -275,11 +277,12 @@
                                             J'atteste que je n'ai jamais bénéficié précédemment du pèlerinage.
                                         </label>
                                     </div>
+                                    @error('dejaBeneficiant')
+                                        <div class="alert alert-default-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-                            @error('dejaBeneficiant')
-                                <div class="alert alert-default-danger">{{ $message }}</div>
-                            @enderror
+
                         </div>
                     @elseif ($currentStep == 2 && $statut != 'Unknown')
                         <div class="panel" id="piece-jointes">
@@ -608,10 +611,10 @@
         @elseif ($currentStep == 2 && $statut != 'Unknown')
             <div class="row">
                 <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
-                        wire:click.prevent="previousStep()">Étape precedente</button>
+                        wire:click.prevent="previousStep()">Étape précédente</button>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end"> <button type="button" class="buttonNext"
-                        wire:click.prevent="inscrire()">Enregistrer</button>
+                        wire:click.prevent="inscrire()"><i class="fas fa-save mr-2" ></i>Enregistrer</button>
                 </div>
             </div>
         @endif

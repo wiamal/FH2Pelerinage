@@ -34,6 +34,15 @@
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
 }
+.btn-logout {
+  text-decoration: none !important;
+  transition: 0.35s ease-in-out !important;
+  transition: all 0.35s ease-in-out !important;
+}
+.btn-logout:hover {
+  text-decoration: underline !important;
+  color: #128ae0 !important;
+}
 /*********************** my style add *************************************************
 
 
