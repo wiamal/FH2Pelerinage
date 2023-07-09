@@ -25,13 +25,12 @@ Auth::routes();
 
 Route::get('/confirm/{id}/{token}', '\App\Http\Controllers\Auth\RegisterController@confirm');
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/', function () {
-        return view('auth.login');
+        return view('dashboard.dashboard');
     });
-
     Route::group([
         "prefix" => "dashboard",
         'as' => 'dashboard.'

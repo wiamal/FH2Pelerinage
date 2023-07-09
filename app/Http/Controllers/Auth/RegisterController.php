@@ -74,7 +74,7 @@ class RegisterController extends Controller
 
         if ($user) {
 
-            $user->confirmation_token = 'null';
+            $user->confirmation_token = NULL;
             $user->save();
             $this->guard()->login($user);
 
