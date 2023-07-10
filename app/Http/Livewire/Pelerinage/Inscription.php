@@ -272,7 +272,7 @@ class Inscription extends Component
     }
 
     public function inscrire()
-    {
+    {        /* sleep(5); */
         $this->validate();
         // dd($this->compare());
         DB::beginTransaction();
