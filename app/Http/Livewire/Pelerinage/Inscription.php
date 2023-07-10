@@ -379,7 +379,7 @@ class Inscription extends Component
                 return 5;
             }
         }
-        if (count($this->tmplisteDocuments) == 5) {
+        if (count($this->tmplisteDocuments) == 6) {
             return 2;
         } else {
             return 1;

@@ -52,6 +52,8 @@ class ListeInscrits extends Component
         foreach ($this->listeInscrits as $insc) {
             if ($insc->IdStatutInscriptionPelerinage == 2)
                 array_push($this->listeInscritsActif, $insc);
+            elseif ($insc->IdStatutInscriptionPelerinage == 1)
+                array_push($this->listeInscritsActif, $insc);
         }
 
         return view('livewire.pelerinage.liste-inscrits');
