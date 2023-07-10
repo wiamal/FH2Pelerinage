@@ -27,6 +27,7 @@
                          <thead>
                              <tr>
                                  <th>ID Inscription</th>
+                                 <th>Etat</th>
                                  <th>Affiliation</th>
                                  <th>Nom & prenom</th>
                                  <th>الإسم و النسب</th>
@@ -48,6 +49,7 @@
                              @foreach ($listeInscritsActif as $insc)
                                  <tr>
                                      <td><strong> {{ $insc->IdInscription }}</strong></td>
+
                                      <td> {{ $insc->Affiliation }}</td>
                                      <td>
                                          {{ $insc->Nom . ' ' . $insc->Prenom }}

@@ -25,12 +25,17 @@ Auth::routes();
 
 Route::get('/confirm/{id}/{token}', '\App\Http\Controllers\Auth\RegisterController@confirm');
 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/', function () {
-        return view('accueilPelerinage');
-    });
+
+    // Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    // Route::get('/', function () {
+    //     return view('accueilPelerinage');
+    // });
+
     Route::group([
         "prefix" => "dashboard",
         'as' => 'dashboard.'
@@ -53,9 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::view('pelerinage/liste-inscrits', 'listeInscritsPelerinage')->name('liste-inscrits');
 
 
-    Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
+    // Route::post('/demande',  [App\Http\Controllers\inscriptionPelerinageController::class, 'demander'])->name('demandePelerinage');
 
     //for displaying PDF
-    Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');
-    Route::get('/export-liste-inscrits', [\App\Http\Livewire\Pelerinage\ListeInscrits::class, 'exportToExcel'])->name('export-liste-inscrits');
+    Route::get('/pelerinage/pdf', [PdfController::class, 'show'])->name('pdf.show');
+    // Route::get('/export-liste-inscrits', [\App\Http\Livewire\Pelerinage\ListeInscrits::class, 'exportToExcel'])->name('export-liste-inscrits');
 });

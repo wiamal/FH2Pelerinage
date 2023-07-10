@@ -90,6 +90,8 @@ class Inscription extends Component
         $result = InscriptionPelerinage::where('IdAdherent', $idAdherent)->first();
         if (!empty($result)) {
             $this->hasAccount = true;
+            $this->correctAge = true;
+            $this->correctAnciennete = true;
             $this->idInscription = $result->IdInscription;
             $this->dateNaissance = $result->DateNaissance;
             $this->dateRecrutement = $result->DateRecrutement;

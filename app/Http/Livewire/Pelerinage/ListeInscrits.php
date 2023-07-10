@@ -14,7 +14,7 @@ use Livewire\Component;
 class ListeInscrits extends Component
 {
     public $listeInscrits;
-    public $ListeInscritsActif, $ListeInscritsLocalError, $ListeInscritsExternalError;
+    public $listeInscritsActif = [], $listeInscritsLocalError = [], $listeInscritsExternalError = [];
     public $annee;
     public $retraite;
 
@@ -29,7 +29,9 @@ class ListeInscrits extends Component
         // INNER JOIN pelerinage23
         // ON pelerinage23.IdPelerinage = inscriptionpelerinage.IdPelerinage
         // INNER JOIN `users-pelerinage`
-        // ON `users-pelerinage`.IdAdherent = inscriptionpelerinage.IdAdherent;
+        // ON `users-pelerinage`.IdAdherent = inscriptionpelerinage.IdAdherent
+        // INNER JOIN statutinscriptionpelerinage
+        // ON inscriptionpelerinage.IdStatutInscriptionPelerinage=statutinscriptionpelerinage.IdStatutInscriptionPelerinage;
         $this->listeInscrits = DB::table('inscriptionpelerinage')
             ->select(
                 DB::raw("inscriptionpelerinage.IdInscription, pelerinage23.Annee, ab6.Affiliation, ab6.Nom, ab6.Prenom, 
@@ -39,6 +41,7 @@ class ListeInscrits extends Component
             ->join('ab6', 'ab6.id_adh', 'inscriptionpelerinage.IdAdherent')
             ->join('pelerinage23', 'pelerinage23.IdPelerinage', 'inscriptionpelerinage.IdPelerinage')
             ->join('users-pelerinage', 'users-pelerinage.IdAdherent', 'inscriptionpelerinage.IdAdherent')
+            ->join('statutinscriptionpelerinage', 'IdStatutInscriptionPelerinage', 'IdStatutInscriptionPelerinage')
             ->get();
         foreach ($this->listeInscrits as $insc) {
             $this->annee = $insc->Annee;
@@ -46,7 +49,10 @@ class ListeInscrits extends Component
             break;
         }
 
-        foreach($this->listeInscrits as )
+        foreach ($this->listeInscrits as $insc) {
+            if ($insc->IdStatutInscriptionPelerinage == 2)
+                array_push($this->listeInscritsActif, $insc);
+        }
 
         return view('livewire.pelerinage.liste-inscrits');
     }
