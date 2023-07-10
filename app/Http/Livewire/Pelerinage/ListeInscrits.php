@@ -14,6 +14,7 @@ use Livewire\Component;
 class ListeInscrits extends Component
 {
     public $listeInscrits;
+    public $ListeInscritsActif, $ListeInscritsLocalError, $ListeInscritsExternalError;
     public $annee;
     public $retraite;
 
@@ -44,6 +45,8 @@ class ListeInscrits extends Component
             $this->retraite = $insc->Pension_Retraite == null ? false : true;
             break;
         }
+
+        foreach($this->listeInscrits as )
 
         return view('livewire.pelerinage.liste-inscrits');
     }

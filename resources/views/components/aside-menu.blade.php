@@ -19,7 +19,7 @@
       </li>
   </ul>
 
-  <a class="btn btn-primary btn-block" href="{{ route('logout') }}"
+  <a class="btn btn-primary btn-block bg-transparent" href="{{ route('logout') }}"
       onclick="event.preventDefault();
                       document.getElementById('logout-form').submit();">
       Déconnexion

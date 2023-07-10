@@ -3,11 +3,12 @@
         <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="{{ route('accueilPelerinage') }}" class="nav-link {{ setMenuClass('accueilPelerinage', 'active') }} ">
+            <a href="{{ route('accueilPelerinage') }}"
+                class="nav-link {{ setMenuClass('accueilPelerinage', 'active') }} ">
                 <img src="{{ asset('images/icons/prestations-icons/icons8-kaaba-16.png') }}" class="mx-2"
                     alt="">
                 <p>
-                  Pèlerinage
+                    Pèlerinage
                 </p>
             </a>
         </li>
@@ -122,7 +123,7 @@
         @if (Auth::user()->name == 'admin')
             <li class="nav-item">
                 <a href="{{ route('liste-inscrits') }}" class="nav-link  ">
-                    <i class="nav-icon fa-solid fa-kaaba"></i>
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
                     <p>Administration</p>
                 </a>
                 {{-- <ul class="nav nav-treeview">
@@ -154,8 +155,8 @@
         @endif
     </ul>
     <!-- bottom Side Of Navbar -->
-    
-    
+
+
     <ul class="navbar-nav bg-white shadow-sm rounded-5" style="top:90%;position:absolute;">
         <a href="{{ route('logout') }}" class="nav-link btn btn-logout"
             onclick="event.preventDefault();document.getElementById('logout-form').submit();">

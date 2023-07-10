@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm rounded">
                 <div class="card-body p-4" style="min-width: 400px;">
-                    <div class="text-center mb-5" >
+                    <div class="text-center mb-5">
                         <h6 class="text-muted">
                             {{ __('Connectez-vous à votre compte.') }}
                         </h6>
@@ -73,5 +73,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -246,8 +246,9 @@ class Inscription extends Component
     public function nextStep()
     {
         $this->validate();
-        if (++$this->currentStep > 2)
-            $this->currentStep = 2;
+        if ($this->correctAge && $this->correctAnciennete)
+            if (++$this->currentStep > 2)
+                $this->currentStep = 2;
     }
     public function previousStep()
     {

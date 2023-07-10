@@ -5,7 +5,8 @@
                  <div class="card-header">
                      <div class="row">
                          <div class="col-md-6">
-                             <h5>Liste des inscrits a l'aide financiere au pelerinage de l'annee : {{ $annee }}
+                             <h5>Liste des inscrits a l'aide financiere au pelerinage de
+                                 l'annee<strong>{{ $annee }}</strong>
                              </h5>
                          </div>
                          <div class="col-md-6 d-flex justify-content-end">
@@ -22,7 +23,7 @@
                      </div>
                  </div>
                  <div class="card-body">
-                     <table class="table table-striped display py-6" id="ListeInscrits">
+                     <table class="table table-striped display py-6" id="ListeInscritsActif">
                          <thead>
                              <tr>
                                  <th>ID Inscription</th>
@@ -44,7 +45,7 @@
                              </tr>
                          </thead>
                          <tbody>
-                             @foreach ($listeInscrits as $insc)
+                             @foreach ($listeInscritsActif as $insc)
                                  <tr>
                                      <td><strong> {{ $insc->IdInscription }}</strong></td>
                                      <td> {{ $insc->Affiliation }}</td>
