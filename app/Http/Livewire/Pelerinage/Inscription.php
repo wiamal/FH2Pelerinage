@@ -335,12 +335,15 @@ class Inscription extends Component
             }
             DB::commit();
             $this->hasAccount = true;
-            if (!$this->hasAccount)
-                session()->flash('success', "Demande enregistree avec succes.");
-            // return back()->with('success', "Demande enregistree avec succes.");
+            if (!$this->hasAccount){
+                session()->flash('success', "Demande enregistrée avec succès.");
+                return redirect()->to('/pelerinage/inscription');
+            }    
             else
-                // return back()->with('success', "Modifications apportees avec succes.");
-                session()->flash('success', "Modifications apportees avec succes.");
+            {
+                session()->flash('success', "Modifications apportées avec succès.");
+                return redirect()->to('/pelerinage/inscription');
+            }            
         } catch (Exception $e) {
             DB::rollback();
             throw $e;

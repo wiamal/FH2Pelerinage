@@ -132,7 +132,10 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    @livewire('flash.message')
+                    {{--  @livewire('flash.message') --}}
+                     
+                    <x-flash-message />
+                    
                     <div class="row">
                         <div class="col-lg-12">
                             @yield('content')
@@ -166,6 +169,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{{ asset('select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('select2/js/i18n/fr.js') }}"></script>
+
+    <script type="text/javascript">
+        $("document").ready(function() {
+            setTimeout(function() {
+                $("div.alert-time").remove();
+            }, 10000);
+    
+            $('[data-toggle="tooltip"]').tooltip({
+                trigger: 'hover'
+            });
+    
+            $('.with-tooltip').click(function() {
+                $('[data-toggle="tooltip"]').tooltip('hide');
+            });
+            
+        });
+    </script>
 
 
     @stack('scripts')
