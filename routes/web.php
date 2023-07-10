@@ -58,4 +58,5 @@ Route::middleware(['auth'])->group(function () {
 
     //for displaying PDF
     Route::get('/pdf', [PdfController::class, 'show'])->name('pdf.show');
+    Route::get('/export-liste-inscrits', [\App\Http\Livewire\Pelerinage\ListeInscrits::class, 'exportToExcel'])->name('export-liste-inscrits');
 });

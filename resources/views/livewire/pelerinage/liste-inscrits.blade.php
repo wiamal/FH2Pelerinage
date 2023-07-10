@@ -1,11 +1,12 @@
- <div class="panel" id="liste-inscrits">
+ <div class="panel py-4" id="liste-inscrits">
      <div class="row">
          <div class="col-md-12">
-             <div class="card">
+             <div class="card" style="font-size: 0.7em">
                  <div class="card-header">
                      <div class="row">
                          <div class="col-md-6">
-                             <h5>Liste des inscrits a l'aide financiere au pelerinage. Annee : {{ $annee }}</h5>
+                             <h5>Liste des inscrits a l'aide financiere au pelerinage de l'annee : {{ $annee }}
+                             </h5>
                          </div>
                          <div class="col-md-6 d-flex justify-content-end">
                              {{-- @can('creer-lot')
@@ -14,6 +15,9 @@
                                      <i class="fa-solid fa-plus mr-2"></i>Nouveau lot
                                  </button>
                              @endcan --}}
+
+                             <a wire:click="exportToExcel()" class="btn btn-primary">Exporter vers Excel</a>
+
                          </div>
                      </div>
                  </div>
@@ -32,9 +36,7 @@
                                  <th>CIN</th>
                                  <th>Retraite</th>
                                  <th>PPR</th>
-                                 @if ($retraite)
-                                     <th>Pension</th>
-                                 @endif
+                                 <th>Pension</th>
                                  <th>Grade</th>
                                  <th>Tel</th>
                                  <th>Fixe</th>
@@ -74,11 +76,9 @@
                                      <td>
                                          {{ $insc->PPR }}
                                      </td>
-                                     @if ($insc->Pension_Retraite != null)
-                                         <td>
-                                             {{ $insc->Pension_Retraite }}
-                                         </td>
-                                     @endif
+                                     <td>
+                                         {{ $insc->Pension_Retraite != null ? $insc->Pension_Retraite : '' }}
+                                     </td>
                                      <td>
                                          {{ $insc->grade }}
                                      </td>
