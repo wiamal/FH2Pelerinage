@@ -36,12 +36,12 @@ class ListeInscrits extends Component
             ->select(
                 DB::raw("inscriptionpelerinage.IdInscription, pelerinage23.Annee, ab6.Affiliation, ab6.Nom, ab6.Prenom, 
                 ab6.NomAr, ab6.PrenomAr, ab6.pid, ab6.CIN, ab6.PPR, ab6.Pension_Retraite, ab6.Situation_Famille, ab6.grade, 
-                ab6.Date_Affectation, ab6.GSM, ab6.Fixe, `users-pelerinage`.email,ab6.Date_Naissance")
+                ab6.Date_Affectation, ab6.GSM, ab6.Fixe, `users-pelerinage`.email,ab6.Date_Naissance,inscriptionpelerinage.IdStatutInscriptionPelerinage")
             )
             ->join('ab6', 'ab6.id_adh', 'inscriptionpelerinage.IdAdherent')
             ->join('pelerinage23', 'pelerinage23.IdPelerinage', 'inscriptionpelerinage.IdPelerinage')
             ->join('users-pelerinage', 'users-pelerinage.IdAdherent', 'inscriptionpelerinage.IdAdherent')
-            ->join('statutinscriptionpelerinage', 'IdStatutInscriptionPelerinage', 'IdStatutInscriptionPelerinage')
+            ->join('statutinscriptionpelerinage', 'statutinscriptionpelerinage.IdStatutInscriptionPelerinage', 'inscriptionpelerinage.IdStatutInscriptionPelerinage')
             ->get();
         foreach ($this->listeInscrits as $insc) {
             $this->annee = $insc->Annee;
