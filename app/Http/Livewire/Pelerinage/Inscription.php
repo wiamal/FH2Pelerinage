@@ -17,6 +17,7 @@ use App\Models\InscriptionPelerinage as ModelsInscriptionPelerinage;
 use App\Models\PelerinageFile;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -117,8 +118,8 @@ class Inscription extends Component
                     $this->ribBD = $file->URL;
                 }
             }
-            // dd($this->certificatBD);
         }
+
         //$this->listeDocuments = TypeDocumentPelerinage::all();
 
         if ($idAdherent) {
@@ -337,16 +338,15 @@ class Inscription extends Component
                 }
             }
             DB::commit();
-            $this->hasAccount = true;
-            if (!$this->hasAccount){
-                session()->flash('success', "Demande enregistrée avec succès.");
-                return redirect()->to('/pelerinage/inscription');
-            }    
-            else
-            {
-                session()->flash('success', "Modifications apportées avec succès.");
-                return redirect()->to('/pelerinage/inscription');
-            }            
+            if ($this->hasAccount) {
+                return redirect('inscriptionPelerinage')->with("success", "Modification enregistree avec succes.");
+
+                // Session::put('success', "Modification enregistree avec succes.");
+            } else
+                Session::put('success', "Demande enregistree avec succes.");
+
+            // session()->flash('success', "Modifications apportees avec succes.");
+
         } catch (Exception $e) {
             DB::rollback();
             throw $e;
@@ -368,14 +368,15 @@ class Inscription extends Component
             }
         }
         if ($this->statut == 'R') {
-            if ($this->dateRetraite != null && $this->statut == 'R') {
-                $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Date_Retraite;
-                if (Carbon::parse($value) != Carbon::parse($this->dateRetraite)) {
-                    return 4;
-                }
-            } elseif ($this->dateRetraite != null && $this->statut == 'F') { {
+            if ($this->dateRetraite != null) {
+                $pension = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Pension_Retraite;
+                if ($pension != null) {
+                    $value = Adherent::where('id_adh', $this->adherent->id_adh)->first()->Date_Retraite;
+                    if (Carbon::parse($value) != Carbon::parse($this->dateRetraite)) {
+                        return 4;
+                    }
+                } else
                     return 5;
-                }
             }
         }
         if ($this->statut == 'Unknown') { {

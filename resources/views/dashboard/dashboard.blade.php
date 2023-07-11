@@ -132,11 +132,9 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    {{--  @livewire('flash.message') --}}
                      
                     <x-flash-message />
-                    
-                    <div class="row">
+                                        <div class="row">
                         <div class="col-lg-12">
                             @yield('content')
                         </div>

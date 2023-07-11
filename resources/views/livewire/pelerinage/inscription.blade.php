@@ -622,7 +622,7 @@
         @if ($currentStep == 1 && $statut != 'Unknown' && $correctAge && $correctAnciennete)
             <div class="row">
                 <div class="col d-flex justify-content-end">
-                    <button type="button" class="buttonNext" wire:click.prevent="nextStep()">Étape
+                    <button type="button" class="inscriptionbutton" wire:click.prevent="nextStep()">Étape
                         suivante</button>
                 </div>
             </div>
@@ -631,6 +631,7 @@
                 <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
                         wire:click.prevent="previousStep()">Étape précédente</button>
                 </div>
+
                 <div class="col-md-6 d-flex justify-content-end"> 
                     <button type="button" class="buttonNext"
                         wire:click.prevent="inscrire()">
