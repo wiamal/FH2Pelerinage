@@ -1,5 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid my-2">
     @if ($message = Session::get('success'))
+        {{-- {{ dd(Session::get('success')) }} --}}
+
         <div class="alert alert-time alert-default-success alert-block">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">
