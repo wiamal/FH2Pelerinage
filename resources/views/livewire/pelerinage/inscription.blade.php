@@ -501,7 +501,7 @@
                                                 <td>
                                                     <p>Attestation de Relevé d'Identité Bancaire (RIB) originale :</p>
                                                     <div wire:loading wire:target="rib">
-                                                        <x-loading-indicator />
+                                                        <x-loading-indicator/>
                                                     </div>
                                                     @if ($rib)
                                                         <a href="{{ route('pdf.show', ['path' => $rib->getRealPath()]) }}"
@@ -631,8 +631,15 @@
                 <div class="col-md-6"><button type="button" class="btn btn-outline-secondary mx-3"
                         wire:click.prevent="previousStep()">Étape précédente</button>
                 </div>
-                <div class="col-md-6 d-flex justify-content-end"> <button type="button" class="inscriptionbutton"
-                        wire:click.prevent="inscrire()"><i class="fas fa-save mr-2"></i>Enregistrer</button>
+
+                <div class="col-md-6 d-flex justify-content-end"> 
+                    <button type="button" class="buttonNext"
+                        wire:click.prevent="inscrire()">
+                        {{-- <i class="fas fa-save mr-2"></i> --}}
+                        <x-loading-indicator-2 class="mr-2" wire:loading wire:target="inscrire"/>
+                        Enregistrer
+                    </button>
+                    
                 </div>
             </div>
         @endif

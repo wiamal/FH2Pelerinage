@@ -403,7 +403,7 @@
                     <img src="{{ asset('images/Fondation-hassan-II-LOGO-01-300x73.png') }}" alt="FH2santé">
                 </div>
         </div>
-        @include('layouts.flash-message')
+        @include('components.flash-message')
         @yield('content')
         <div class="row p-4">
             <div class="col d-flex justify-content-end align-items-end">

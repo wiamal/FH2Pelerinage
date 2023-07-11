@@ -273,7 +273,7 @@ class Inscription extends Component
     }
 
     public function inscrire()
-    {
+    {        /* sleep(5); */
         $this->validate();
         // dd($this->compare());
         DB::beginTransaction();
@@ -346,6 +346,7 @@ class Inscription extends Component
                 Session::put('success', "Demande enregistree avec succes.");
 
             // session()->flash('success', "Modifications apportees avec succes.");
+
         } catch (Exception $e) {
             DB::rollback();
             throw $e;
